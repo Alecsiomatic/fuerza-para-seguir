@@ -4,19 +4,22 @@ const benefits = [
   {
     icon: Shield,
     title: "Tratamientos Especializados",
-    description: "Ofrecemos tratamientos especializados para DROGADICCIÓN y ALCOHOLISMO con metodología comprobada.",
+    description: "Ofrecemos tratamientos especializados para DROGADICCIÓN y ALCOHOLISMO con metodología comprobada basada en el modelo Minnesota.",
+    details: "Programas personalizados de 30, 60 y 90 días con terapia individual, grupal y familiar. Incluye desintoxicación médica supervisada y plan de prevención de recaídas.",
     color: "text-primary"
   },
   {
     icon: Award,
-    title: "Mejores Instalaciones",
-    description: "Contamos con las mejores instalaciones para garantizar la comodidad y recuperación de nuestros pacientes.",
+    title: "Instalaciones de Primera Clase",
+    description: "Contamos con las mejores instalaciones diseñadas específicamente para garantizar la comodidad, seguridad y recuperación efectiva.",
+    details: "Dormitorios confortables, áreas de terapia equipadas, espacios recreativos al aire libre, cocina con alimentación balanceada y zonas de descanso con ambientes tranquilos.",
     color: "text-secondary"
   },
   {
     icon: Users,
-    title: "Equipo Profesional",
-    description: "Contamos con un equipo profesional y certificado para la rehabilitación de tu ser querido.",
+    title: "Equipo Multidisciplinario",
+    description: "Contamos con un equipo de profesionales certificados y con años de experiencia en rehabilitación de adicciones.",
+    details: "Médicos psiquiatras, psicólogos clínicos, terapeutas certificados, enfermería las 24 horas y consejeros en adicciones capacitados en el modelo Minnesota.",
     color: "text-primary"
   }
 ];
@@ -64,9 +67,14 @@ export const Benefits = () => {
                     {benefit.title}
                   </h3>
                   <div className="w-16 h-1 mx-auto gradient-primary rounded-full opacity-40 mb-6 group-hover:w-24 transition-all duration-500" />
-                  <p className="text-base md:text-lg text-foreground/80 text-center leading-relaxed">
+                  <p className="text-base md:text-lg text-foreground/80 text-center leading-relaxed mb-4">
                     {benefit.description}
                   </p>
+                  <div className="glass rounded-xl p-4 mt-4 border border-border/20">
+                    <p className="text-sm text-foreground/70 text-center leading-relaxed">
+                      {benefit.details}
+                    </p>
+                  </div>
                 </div>
               </div>
             );
@@ -94,12 +102,19 @@ export const Benefits = () => {
               <div className="space-y-4">
                 <p className="text-lg md:text-xl text-foreground/90 leading-relaxed">
                   Es muy importante saber en dónde brindarle la rehabilitación a nuestro ser querido. 
-                  Los anexos dan un maltrato a los pacientes físico y mental. 
+                  Los anexos representan lugares sin certificación que dan un maltrato a los pacientes físico y mental, 
+                  sin personal capacitado ni instalaciones adecuadas.
                 </p>
                 <div className="glass rounded-2xl p-6 border-l-4 border-primary">
-                  <p className="text-lg md:text-xl text-foreground/90 leading-relaxed">
+                  <p className="text-lg md:text-xl text-foreground/90 leading-relaxed mb-3">
                     <strong className="text-primary font-bold">En nuestra clínica garantizamos un trato profesional, humano y efectivo.</strong>
                   </p>
+                  <ul className="space-y-2 text-base text-foreground/80">
+                    <li>✓ Personal certificado y supervisión médica constante</li>
+                    <li>✓ Instalaciones acondicionadas y seguras</li>
+                    <li>✓ Programas terapéuticos basados en evidencia científica</li>
+                    <li>✓ Respeto absoluto a la dignidad y derechos humanos</li>
+                  </ul>
                 </div>
               </div>
             </div>

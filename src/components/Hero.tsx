@@ -51,25 +51,36 @@ export const Hero = () => {
           <div className="glass-premium rounded-3xl p-10 md:p-14 mb-12 shadow-luxury max-w-4xl mx-auto border-gradient animate-scale-in" style={{ animationDelay: '0.2s' }}>
             <div className="space-y-6">
               <p className="text-xl md:text-2xl text-foreground/90 leading-relaxed font-light">
-                Somos una clínica especializada en la rehabilitación de personas con adicciones.
+                Somos una clínica especializada en la rehabilitación de personas con adicciones, 
+                comprometidos con brindar un tratamiento integral, humano y efectivo.
               </p>
               <div className="w-24 h-px mx-auto gradient-primary opacity-40" />
               <p className="text-lg md:text-xl text-foreground/80 leading-relaxed">
-                Rehabilitamos a nuestros pacientes con un <strong className="text-primary font-semibold">modelo propio combinado con el gran modelo MINNESOTA</strong>, 
-                brindando una recuperación estable y garantizada.
+                Rehabilitamos a nuestros pacientes con un <strong className="text-primary font-semibold">modelo propio combinado con el prestigioso modelo MINNESOTA</strong>, 
+                reconocido mundialmente por su efectividad en el tratamiento de adicciones.
               </p>
+              <div className="glass rounded-2xl p-6 mt-6 border-l-4 border-secondary">
+                <p className="text-base md:text-lg text-foreground/80 leading-relaxed">
+                  Nuestro enfoque terapéutico se basa en <strong className="text-secondary">12 pasos de recuperación</strong>, 
+                  terapia individual y grupal, acompañamiento médico-psiquiátrico las 24 horas, 
+                  y un programa de reinserción social que garantiza resultados duraderos.
+                </p>
+              </div>
               <div className="grid md:grid-cols-3 gap-6 mt-8 pt-6 border-t border-border/30">
                 <div className="text-center">
                   <div className="text-3xl md:text-4xl font-bold text-primary mb-2">24/7</div>
-                  <div className="text-sm text-muted-foreground">Atención Continua</div>
+                  <div className="text-sm text-muted-foreground">Atención Médica</div>
+                  <div className="text-xs text-muted-foreground/70 mt-1">Supervisión Continua</div>
                 </div>
                 <div className="text-center">
                   <div className="text-3xl md:text-4xl font-bold text-secondary mb-2">100%</div>
-                  <div className="text-sm text-muted-foreground">Profesional</div>
+                  <div className="text-sm text-muted-foreground">Certificado</div>
+                  <div className="text-xs text-muted-foreground/70 mt-1">Equipo Profesional</div>
                 </div>
                 <div className="text-center">
                   <div className="text-3xl md:text-4xl font-bold text-primary mb-2">+15</div>
-                  <div className="text-sm text-muted-foreground">Años de Experiencia</div>
+                  <div className="text-sm text-muted-foreground">Años</div>
+                  <div className="text-xs text-muted-foreground/70 mt-1">De Experiencia</div>
                 </div>
               </div>
             </div>

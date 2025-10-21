@@ -15,11 +15,13 @@ export const Contact = () => {
           <div className="text-center mb-12 animate-fade-in">
             <h2 className="text-4xl md:text-5xl font-bold mb-4">
               <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-                Contáctanos
+                Contáctanos Ahora
               </span>
             </h2>
-            <p className="text-xl text-muted-foreground">
-              Estamos aquí para ayudarte. Da el primer paso hacia la recuperación.
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+              Estamos aquí para ayudarte las 24 horas del día, los 7 días de la semana. 
+              Da el primer paso hacia la recuperación de tu ser querido. 
+              La atención inmediata puede marcar la diferencia.
             </p>
           </div>
 
@@ -84,14 +86,31 @@ export const Contact = () => {
                 </div>
               </div>
 
+              {/* Info adicional */}
+              <div className="grid md:grid-cols-2 gap-6 mb-10">
+                <div className="glass rounded-2xl p-6 border-l-4 border-primary">
+                  <h4 className="font-bold text-primary mb-3 text-lg">Evaluación Inicial Gratuita</h4>
+                  <p className="text-sm text-foreground/80">
+                    Nuestros especialistas realizan una valoración completa sin costo para determinar el mejor programa de tratamiento.
+                  </p>
+                </div>
+                <div className="glass rounded-2xl p-6 border-l-4 border-secondary">
+                  <h4 className="font-bold text-secondary mb-3 text-lg">Proceso de Admisión Rápido</h4>
+                  <p className="text-sm text-foreground/80">
+                    Entendemos la urgencia. Podemos iniciar el tratamiento el mismo día de la llamada con disponibilidad inmediata.
+                  </p>
+                </div>
+              </div>
+
               {/* CTA Section */}
               <div className="text-center pt-10 border-t border-border/50">
                 <div className="mb-8 space-y-3">
                   <p className="text-2xl md:text-3xl font-bold text-foreground">
-                    No esperes más
+                    No esperes más, cada momento cuenta
                   </p>
                   <p className="text-lg md:text-xl text-foreground/80">
-                    Tu recuperación comienza con una llamada
+                    Tu recuperación o la de tu ser querido comienza con una simple llamada. 
+                    Nuestro equipo está listo para atenderte ahora.
                   </p>
                 </div>
                 
@@ -102,12 +121,17 @@ export const Contact = () => {
                 >
                   <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000" />
                   <Phone className="mr-4 h-8 w-8 group-hover:animate-pulse relative z-10" />
-                  <span className="relative z-10">Llamar Ahora</span>
+                  <span className="relative z-10">Llamar Ahora: 444 333 2009</span>
                 </Button>
 
-                <p className="mt-6 text-sm text-muted-foreground">
-                  Atención inmediata · Confidencial · Profesional
-                </p>
+                <div className="mt-6 glass rounded-xl p-4 max-w-2xl mx-auto">
+                  <p className="text-sm text-muted-foreground mb-2">
+                    <strong className="text-foreground">Atención inmediata · Confidencial · Profesional</strong>
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    Aceptamos llamadas de familiares. Orientación sin compromiso disponible 24/7.
+                  </p>
+                </div>
               </div>
             </div>
           </div>

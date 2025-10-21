@@ -33,8 +33,8 @@ export const Hero = () => {
           </div>
 
           {/* Main heading with enhanced effects */}
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-8 text-shadow-strong animate-scale-in">
-            <span className="bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent animate-gradient bg-[length:200%_auto]">
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-8 text-shadow-premium animate-scale-in">
+            <span className="text-gradient-medical">
               Clínica Fuerza Para Seguir
             </span>
           </h1>
@@ -44,17 +44,17 @@ export const Hero = () => {
             <p className="text-2xl md:text-3xl lg:text-4xl mb-4 text-foreground/90 font-light">
               Rehabilitación Profesional de Adicciones
             </p>
-            <div className="w-32 h-1 mx-auto gradient-primary rounded-full opacity-60" />
+            <div className="w-32 h-1 mx-auto gradient-medical rounded-full opacity-70" />
           </div>
 
           {/* Enhanced description */}
-          <div className="glass-premium rounded-3xl p-10 md:p-14 mb-12 shadow-luxury max-w-4xl mx-auto border-gradient animate-scale-in" style={{ animationDelay: '0.2s' }}>
+          <div className="glass-premium rounded-3xl p-10 md:p-14 mb-12 shadow-premium-gold hover-elevate max-w-4xl mx-auto border-gradient animate-scale-in animate-medical-glow" style={{ animationDelay: '0.2s' }}>
             <div className="space-y-6">
               <p className="text-xl md:text-2xl text-foreground/90 leading-relaxed font-light">
                 Somos una clínica especializada en la rehabilitación de personas con adicciones, 
                 comprometidos con brindar un tratamiento integral, humano y efectivo.
               </p>
-              <div className="w-24 h-px mx-auto gradient-primary opacity-40" />
+              <div className="w-24 h-px mx-auto gradient-medical opacity-50" />
               <p className="text-lg md:text-xl text-foreground/80 leading-relaxed">
                 Rehabilitamos a nuestros pacientes con un <strong className="text-primary font-semibold">modelo propio combinado con el prestigioso modelo MINNESOTA</strong>, 
                 reconocido mundialmente por su efectividad en el tratamiento de adicciones.
@@ -91,7 +91,7 @@ export const Hero = () => {
             <Button 
               onClick={handleCall}
               size="lg"
-              className="gradient-primary text-white hover:opacity-90 hover:scale-105 transition-all duration-500 shadow-luxury text-xl md:text-2xl px-12 md:px-16 py-8 md:py-10 rounded-full group relative overflow-hidden"
+              className="gradient-medical text-white hover:opacity-90 hover:scale-105 transition-all duration-500 shadow-premium-gold text-xl md:text-2xl px-12 md:px-16 py-8 md:py-10 rounded-full group relative overflow-hidden hover-elevate"
             >
               <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000" />
               <Phone className="mr-4 h-7 w-7 group-hover:animate-pulse relative z-10" />

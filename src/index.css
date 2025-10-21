@@ -8,86 +8,95 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 210 30% 96%;
-    --foreground: 210 60% 15%;
+    /* Paleta premium inspirada en logos médicos profesionales */
+    --background: 210 25% 98%;
+    --foreground: 216 85% 8%;
 
     --card: 0 0% 100%;
-    --card-foreground: 210 60% 15%;
+    --card-foreground: 216 85% 8%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 210 60% 15%;
+    --popover-foreground: 216 85% 8%;
 
-    --primary: 210 85% 25%;
+    /* Azul médico profundo - color de confianza y profesionalismo */
+    --primary: 216 85% 20%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 85 65% 50%;
+    /* Verde salud/esperanza - color de renovación y vida */
+    --secondary: 155 65% 30%;
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 210 30% 92%;
-    --muted-foreground: 210 20% 45%;
+    /* Dorado premium - color de lujo y excelencia */
+    --accent: 45 85% 50%;
+    --accent-foreground: 216 85% 8%;
 
-    --accent: 85 65% 50%;
-    --accent-foreground: 0 0% 100%;
+    --muted: 210 20% 96%;
+    --muted-foreground: 216 25% 45%;
 
-    --destructive: 0 84.2% 60.2%;
+    --destructive: 0 85% 55%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 210 30% 88%;
-    --input: 210 30% 88%;
-    --ring: 210 85% 25%;
+    --border: 210 25% 90%;
+    --input: 210 25% 94%;
+    --ring: 216 85% 20%;
 
     --radius: 1rem;
 
-    /* Glass effect variables */
+    /* Glass effect variables - Mayor sofisticación */
     --glass-bg: 255 255 255;
-    --glass-border: 210 30% 88%;
+    --glass-border: 210 25% 88%;
     
-    /* Gradient colors */
-    --gradient-start: 85 65% 50%;
-    --gradient-end: 210 85% 35%;
+    /* Gradientes premium médicos */
+    --gradient-start: 216 85% 20%;  /* Azul médico profundo */
+    --gradient-mid: 155 65% 30%;    /* Verde salud */
+    --gradient-end: 45 85% 50%;     /* Dorado premium */
     
-    /* Shadow colors */
-    --shadow-primary: 210 85% 25%;
-    --shadow-secondary: 85 65% 50%;
+    /* Sombras de lujo */
+    --shadow-primary: 216 85% 20%;
+    --shadow-secondary: 155 65% 30%;
+    --shadow-luxury: 45 85% 50%;
+    --shadow-elegant: 216 25% 15%;
   }
 
   .dark {
-    --background: 210 60% 8%;
-    --foreground: 210 30% 96%;
+    --background: 210 65% 4%;
+    --foreground: 210 20% 95%;
 
-    --card: 210 50% 12%;
-    --card-foreground: 210 30% 96%;
+    --card: 210 55% 8%;
+    --card-foreground: 210 20% 95%;
 
-    --popover: 210 50% 12%;
-    --popover-foreground: 210 30% 96%;
+    --popover: 210 55% 8%;
+    --popover-foreground: 210 20% 95%;
 
-    --primary: 85 65% 50%;
-    --primary-foreground: 210 60% 8%;
+    --primary: 45 100% 65%;
+    --primary-foreground: 210 65% 4%;
 
-    --secondary: 210 85% 35%;
-    --secondary-foreground: 0 0% 100%;
+    --secondary: 158 70% 45%;
+    --secondary-foreground: 210 65% 4%;
 
-    --muted: 210 50% 15%;
-    --muted-foreground: 210 30% 70%;
+    --accent: 45 100% 65%;
+    --accent-foreground: 210 65% 4%;
 
-    --accent: 85 65% 50%;
-    --accent-foreground: 210 60% 8%;
+    --muted: 210 55% 12%;
+    --muted-foreground: 210 25% 75%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 30% 96%;
+    --destructive: 0 90% 65%;
+    --destructive-foreground: 210 65% 4%;
 
-    --border: 210 50% 20%;
-    --input: 210 50% 20%;
-    --ring: 85 65% 50%;
+    --border: 210 55% 18%;
+    --input: 210 55% 15%;
+    --ring: 45 100% 65%;
 
-    --glass-bg: 210 50 12;
-    --glass-border: 210 50% 25%;
+    --glass-bg: 210 55 8;
+    --glass-border: 210 55% 25%;
     
-    --gradient-start: 85 65% 45%;
-    --gradient-end: 210 85% 30%;
+    --gradient-start: 45 100% 65%;
+    --gradient-mid: 210 95% 35%;
+    --gradient-end: 158 70% 45%;
     
-    --shadow-primary: 85 65% 50%;
-    --shadow-secondary: 210 85% 35%;
+    --shadow-primary: 45 100% 65%;
+    --shadow-secondary: 158 70% 45%;
+    --shadow-luxury: 45 100% 65%;
   }
 }
 
@@ -107,36 +116,46 @@ All colors MUST be HSL.
 }
 
 @layer utilities {
+  /* Glass effects premium - más sofisticados */
   .glass {
-    background: rgba(var(--glass-bg), 0.7);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(var(--glass-bg), 0.2);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    background: rgba(var(--glass-bg), 0.75);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(var(--glass-bg), 0.25);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08);
   }
 
   .glass-strong {
-    background: rgba(var(--glass-bg), 0.85);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(var(--glass-bg), 0.3);
-    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15);
+    background: rgba(var(--glass-bg), 0.88);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(var(--glass-bg), 0.35);
+    box-shadow: 0 16px 56px rgba(0, 0, 0, 0.18), 0 4px 16px rgba(0, 0, 0, 0.12);
   }
 
   .glass-premium {
-    background: rgba(var(--glass-bg), 0.95);
-    backdrop-filter: blur(30px);
-    -webkit-backdrop-filter: blur(30px);
-    border: 1px solid rgba(var(--glass-bg), 0.4);
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    background: rgba(var(--glass-bg), 0.92);
+    backdrop-filter: blur(32px);
+    -webkit-backdrop-filter: blur(32px);
+    border: 1px solid rgba(var(--glass-bg), 0.45);
+    box-shadow: 
+      0 24px 80px rgba(0, 0, 0, 0.25), 
+      0 8px 32px rgba(0, 0, 0, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.15),
+      inset 0 0 20px rgba(255, 255, 255, 0.05);
   }
 
+  /* Gradientes médicos premium */
   .gradient-primary {
-    background: linear-gradient(135deg, hsl(var(--gradient-start)), hsl(var(--gradient-end)));
+    background: linear-gradient(135deg, hsl(var(--gradient-start)), hsl(var(--gradient-mid)), hsl(var(--gradient-end)));
   }
 
   .gradient-secondary {
-    background: linear-gradient(135deg, hsl(var(--gradient-end)), hsl(var(--gradient-start)));
+    background: linear-gradient(135deg, hsl(var(--gradient-end)), hsl(var(--gradient-mid)), hsl(var(--gradient-start)));
+  }
+
+  .gradient-medical {
+    background: linear-gradient(135deg, hsl(var(--gradient-start)) 0%, hsl(var(--gradient-mid)) 50%, hsl(var(--gradient-end)) 100%);
   }
 
   .gradient-radial {
@@ -159,14 +178,30 @@ All colors MUST be HSL.
     box-shadow: 0 8px 32px hsla(var(--shadow-secondary), 0.15), 0 0 80px hsla(var(--shadow-secondary), 0.1);
   }
 
+  /* Sombras premium médicas */
   .shadow-luxury {
     box-shadow: 
-      0 2px 4px rgba(0, 0, 0, 0.05),
-      0 8px 16px rgba(0, 0, 0, 0.1),
-      0 16px 32px rgba(0, 0, 0, 0.1),
-      0 32px 64px rgba(0, 0, 0, 0.1);
+      0 2px 8px rgba(0, 0, 0, 0.06),
+      0 8px 24px rgba(0, 0, 0, 0.12),
+      0 16px 40px rgba(0, 0, 0, 0.12),
+      0 32px 80px rgba(0, 0, 0, 0.12);
   }
 
+  .shadow-medical-glow {
+    box-shadow: 
+      0 0 20px hsla(var(--shadow-primary), 0.15),
+      0 0 40px hsla(var(--shadow-primary), 0.1),
+      0 8px 32px rgba(0, 0, 0, 0.15);
+  }
+
+  .shadow-premium-gold {
+    box-shadow: 
+      0 0 30px hsla(var(--shadow-luxury), 0.2),
+      0 8px 40px rgba(0, 0, 0, 0.15),
+      0 16px 60px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Bordes premium con gradientes médicos */
   .border-gradient {
     border: 2px solid transparent;
     background-clip: padding-box;
@@ -179,9 +214,130 @@ All colors MUST be HSL.
     inset: 0;
     border-radius: inherit;
     padding: 2px;
-    background: linear-gradient(135deg, hsl(var(--gradient-start)), hsl(var(--gradient-end)));
+    background: linear-gradient(135deg, hsl(var(--gradient-start)), hsl(var(--gradient-mid)), hsl(var(--gradient-end)));
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
+  }
+
+  /* Efectos de texto premium */
+  .text-shadow-premium {
+    text-shadow: 
+      0 2px 4px rgba(0, 0, 0, 0.1),
+      0 4px 8px rgba(0, 0, 0, 0.15),
+      0 8px 16px rgba(0, 0, 0, 0.1);
+  }
+
+  .text-gradient-medical {
+    background: linear-gradient(135deg, hsl(var(--gradient-start)), hsl(var(--gradient-mid)), hsl(var(--gradient-end)));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 200% 200%;
+    animation: gradient-shift 3s ease-in-out infinite;
+  }
+
+  /* Efectos de hover premium */
+  .hover-elevate {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .hover-elevate:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 
+      0 16px 64px rgba(0, 0, 0, 0.15),
+      0 8px 32px rgba(0, 0, 0, 0.1),
+      0 0 40px hsla(var(--shadow-luxury), 0.2);
+  }
+
+  /* Animaciones premium */
+  @keyframes gradient-shift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  @keyframes medical-glow {
+    0%, 100% { 
+      box-shadow: 0 0 20px hsla(var(--shadow-primary), 0.3);
+    }
+    50% { 
+      box-shadow: 0 0 40px hsla(var(--shadow-primary), 0.5);
+    }
+  }
+
+  @keyframes premium-float {
+    0%, 100% { 
+      transform: translateY(0px) rotate(0deg);
+    }
+    50% { 
+      transform: translateY(-10px) rotate(1deg);
+    }
+  }
+
+  .animate-medical-glow {
+    animation: medical-glow 3s ease-in-out infinite;
+  }
+
+  .animate-premium-float {
+    animation: premium-float 4s ease-in-out infinite;
+  }
+
+  /* Cards uniformes y premium */
+  .benefit-card {
+    min-height: 520px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .benefit-card-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .benefit-card-header {
+    flex-shrink: 0;
+  }
+
+  .benefit-card-body {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  /* Mejoras de tipografía premium */
+  .premium-text {
+    font-feature-settings: "liga" 1, "kern" 1, "calt" 1;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Espaciado consistente */
+  .consistent-spacing > * + * {
+    margin-top: 1.5rem;
+  }
+
+  /* Grid de beneficios mejorado */
+  .benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+    align-items: stretch;
+  }
+
+  @media (min-width: 768px) {
+    .benefits-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .benefit-card {
+      min-height: 560px;
+    }
   }
 }

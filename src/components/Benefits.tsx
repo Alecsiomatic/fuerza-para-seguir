@@ -32,7 +32,7 @@ export const Benefits = () => {
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-16 animate-fade-in">
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+            <span className="text-gradient-medical">
               Nuestros Beneficios
             </span>
           </h2>
@@ -42,38 +42,51 @@ export const Benefits = () => {
         </div>
 
         {/* Benefits Grid */}
-        <div className="grid md:grid-cols-3 gap-8 mb-16">
+        <div className="benefits-grid mb-16">
           {benefits.map((benefit, index) => {
             const Icon = benefit.icon;
             return (
               <div
                 key={index}
-                className="group relative glass-premium rounded-3xl p-10 hover:scale-105 transition-all duration-500 shadow-luxury animate-fade-in overflow-hidden"
+                className="benefit-card group relative glass-premium rounded-3xl p-8 hover-elevate transition-all duration-500 shadow-premium-gold animate-fade-in overflow-hidden"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
                 {/* Animated background gradient on hover */}
-                <div className="absolute inset-0 gradient-primary opacity-0 group-hover:opacity-10 transition-opacity duration-500" />
+                <div className="absolute inset-0 gradient-medical opacity-0 group-hover:opacity-10 transition-opacity duration-500" />
                 
-                <div className="relative z-10">
-                  <div className={`${benefit.color} mb-8 flex justify-center`}>
+                <div className="benefit-card-content relative z-10">
+                  {/* Icon section - fixed height */}
+                  <div className={`benefit-card-header ${benefit.color} mb-6 flex justify-center`}>
                     <div className="relative">
                       <div className="absolute inset-0 bg-current opacity-20 rounded-full blur-xl animate-pulse" style={{ animationDuration: '3s' }} />
-                      <div className="glass-strong rounded-full p-6 shadow-glow-primary group-hover:scale-110 transition-transform duration-500">
-                        <Icon className="w-14 h-14" />
+                      <div className="glass-strong rounded-full p-5 shadow-medical-glow group-hover:scale-110 transition-transform duration-500">
+                        <Icon className="w-12 h-12" />
                       </div>
                     </div>
                   </div>
-                  <h3 className="text-2xl md:text-3xl font-bold mb-4 text-center group-hover:text-primary transition-colors duration-300">
-                    {benefit.title}
-                  </h3>
-                  <div className="w-16 h-1 mx-auto gradient-primary rounded-full opacity-40 mb-6 group-hover:w-24 transition-all duration-500" />
-                  <p className="text-base md:text-lg text-foreground/80 text-center leading-relaxed mb-4">
-                    {benefit.description}
-                  </p>
-                  <div className="glass rounded-xl p-4 mt-4 border border-border/20">
-                    <p className="text-sm text-foreground/70 text-center leading-relaxed">
-                      {benefit.details}
-                    </p>
+                  
+                  {/* Title section - fixed height */}
+                  <div className="benefit-card-header mb-6">
+                    <h3 className="text-xl md:text-2xl font-bold text-center group-hover:text-primary transition-colors duration-300 premium-text min-h-[4rem] flex items-center justify-center px-2">
+                      {benefit.title}
+                    </h3>
+                    <div className="w-16 h-1 mx-auto gradient-medical rounded-full opacity-50 group-hover:w-24 transition-all duration-500" />
+                  </div>
+                  
+                  {/* Content section - flexible but structured */}
+                  <div className="benefit-card-body">
+                    <div className="mb-6">
+                      <p className="text-base text-foreground/80 text-center leading-relaxed premium-text">
+                        {benefit.description}
+                      </p>
+                    </div>
+                    
+                    {/* Details section - consistent at bottom */}
+                    <div className="glass rounded-xl p-4 border border-border/20 mt-auto">
+                      <p className="text-sm text-foreground/70 text-center leading-relaxed premium-text">
+                        {benefit.details}
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -82,7 +95,7 @@ export const Benefits = () => {
         </div>
 
         {/* Important Message */}
-        <div className="relative glass-premium rounded-3xl p-10 md:p-14 shadow-luxury border-l-8 border-destructive animate-scale-in overflow-hidden">
+        <div className="relative glass-premium rounded-3xl p-10 md:p-14 shadow-premium-gold border-l-8 border-destructive animate-scale-in overflow-hidden hover-elevate">
           {/* Animated background */}
           <div className="absolute inset-0 bg-gradient-to-r from-destructive/5 to-transparent animate-pulse" style={{ animationDuration: '4s' }} />
           

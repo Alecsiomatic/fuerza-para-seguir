@@ -1,0 +1,40 @@
+import { Button } from "@/components/ui/button";
+import { Phone } from "lucide-react";
+import { useState, useEffect } from "react";
+
+export const FloatingCallButton = () => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const toggleVisibility = () => {
+      if (window.pageYOffset > 300) {
+        setIsVisible(true);
+      } else {
+        setIsVisible(false);
+      }
+    };
+
+    window.addEventListener("scroll", toggleVisibility);
+    return () => window.removeEventListener("scroll", toggleVisibility);
+  }, []);
+
+  const handleCall = () => {
+    window.location.href = "tel:4443332009";
+  };
+
+  return (
+    <div
+      className={`fixed bottom-8 right-8 z-50 transition-all duration-300 ${
+        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-16"
+      }`}
+    >
+      <Button
+        onClick={handleCall}
+        size="lg"
+        className="gradient-primary text-white hover:opacity-90 transition-all duration-300 shadow-glow-primary rounded-full h-16 w-16 md:h-20 md:w-20 p-0 group animate-float"
+      >
+        <Phone className="h-8 w-8 md:h-10 md:w-10 group-hover:animate-pulse" />
+      </Button>
+    </div>
+  );
+};

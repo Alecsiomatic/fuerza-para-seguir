@@ -45,42 +45,63 @@ export const Benefits = () => {
             return (
               <div
                 key={index}
-                className="glass rounded-3xl p-8 hover:scale-105 transition-all duration-300 shadow-glow-primary animate-fade-in"
+                className="group relative glass-premium rounded-3xl p-10 hover:scale-105 transition-all duration-500 shadow-luxury animate-fade-in overflow-hidden"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
-                <div className={`${benefit.color} mb-6 flex justify-center`}>
-                  <div className="glass-strong rounded-full p-4">
-                    <Icon className="w-12 h-12" />
+                {/* Animated background gradient on hover */}
+                <div className="absolute inset-0 gradient-primary opacity-0 group-hover:opacity-10 transition-opacity duration-500" />
+                
+                <div className="relative z-10">
+                  <div className={`${benefit.color} mb-8 flex justify-center`}>
+                    <div className="relative">
+                      <div className="absolute inset-0 bg-current opacity-20 rounded-full blur-xl animate-pulse" style={{ animationDuration: '3s' }} />
+                      <div className="glass-strong rounded-full p-6 shadow-glow-primary group-hover:scale-110 transition-transform duration-500">
+                        <Icon className="w-14 h-14" />
+                      </div>
+                    </div>
                   </div>
+                  <h3 className="text-2xl md:text-3xl font-bold mb-4 text-center group-hover:text-primary transition-colors duration-300">
+                    {benefit.title}
+                  </h3>
+                  <div className="w-16 h-1 mx-auto gradient-primary rounded-full opacity-40 mb-6 group-hover:w-24 transition-all duration-500" />
+                  <p className="text-base md:text-lg text-foreground/80 text-center leading-relaxed">
+                    {benefit.description}
+                  </p>
                 </div>
-                <h3 className="text-2xl font-bold mb-4 text-center">
-                  {benefit.title}
-                </h3>
-                <p className="text-foreground/70 text-center leading-relaxed">
-                  {benefit.description}
-                </p>
               </div>
             );
           })}
         </div>
 
         {/* Important Message */}
-        <div className="glass-strong rounded-3xl p-8 md:p-10 shadow-glow-secondary border-l-4 border-destructive animate-scale-in">
-          <div className="flex flex-col md:flex-row items-start md:items-center gap-4">
+        <div className="relative glass-premium rounded-3xl p-10 md:p-14 shadow-luxury border-l-8 border-destructive animate-scale-in overflow-hidden">
+          {/* Animated background */}
+          <div className="absolute inset-0 bg-gradient-to-r from-destructive/5 to-transparent animate-pulse" style={{ animationDuration: '4s' }} />
+          
+          <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center gap-8">
             <div className="flex-shrink-0">
-              <div className="bg-destructive/10 rounded-full p-4">
-                <AlertCircle className="w-12 h-12 text-destructive" />
+              <div className="relative">
+                <div className="absolute inset-0 bg-destructive/30 rounded-full blur-2xl animate-pulse" style={{ animationDuration: '3s' }} />
+                <div className="bg-destructive/15 rounded-full p-6 shadow-glow-primary relative">
+                  <AlertCircle className="w-16 h-16 text-destructive" />
+                </div>
               </div>
             </div>
             <div className="flex-1">
-              <h3 className="text-2xl md:text-3xl font-bold mb-3 text-destructive">
+              <h3 className="text-3xl md:text-4xl font-bold mb-5 text-destructive text-shadow">
                 NO A LOS ANEXOS
               </h3>
-              <p className="text-lg text-foreground/80 leading-relaxed">
-                Es muy importante saber en dónde brindarle la rehabilitación a nuestro ser querido. 
-                Los anexos dan un maltrato a los pacientes físico y mental. 
-                <strong className="text-primary"> En nuestra clínica garantizamos un trato profesional, humano y efectivo.</strong>
-              </p>
+              <div className="space-y-4">
+                <p className="text-lg md:text-xl text-foreground/90 leading-relaxed">
+                  Es muy importante saber en dónde brindarle la rehabilitación a nuestro ser querido. 
+                  Los anexos dan un maltrato a los pacientes físico y mental. 
+                </p>
+                <div className="glass rounded-2xl p-6 border-l-4 border-primary">
+                  <p className="text-lg md:text-xl text-foreground/90 leading-relaxed">
+                    <strong className="text-primary font-bold">En nuestra clínica garantizamos un trato profesional, humano y efectivo.</strong>
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>

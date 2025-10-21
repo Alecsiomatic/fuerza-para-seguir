@@ -112,6 +112,7 @@ All colors MUST be HSL.
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border: 1px solid rgba(var(--glass-bg), 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   }
 
   .glass-strong {
@@ -119,6 +120,15 @@ All colors MUST be HSL.
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border: 1px solid rgba(var(--glass-bg), 0.3);
+    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15);
+  }
+
+  .glass-premium {
+    background: rgba(var(--glass-bg), 0.95);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    border: 1px solid rgba(var(--glass-bg), 0.4);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
   }
 
   .gradient-primary {
@@ -129,15 +139,49 @@ All colors MUST be HSL.
     background: linear-gradient(135deg, hsl(var(--gradient-end)), hsl(var(--gradient-start)));
   }
 
+  .gradient-radial {
+    background: radial-gradient(circle at 50% 50%, hsl(var(--gradient-start)) 0%, hsl(var(--gradient-end)) 50%, transparent 100%);
+  }
+
   .text-shadow {
     text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   }
 
+  .text-shadow-strong {
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
   .shadow-glow-primary {
-    box-shadow: 0 8px 32px hsla(var(--shadow-primary), 0.15);
+    box-shadow: 0 8px 32px hsla(var(--shadow-primary), 0.15), 0 0 80px hsla(var(--shadow-primary), 0.1);
   }
 
   .shadow-glow-secondary {
-    box-shadow: 0 8px 32px hsla(var(--shadow-secondary), 0.15);
+    box-shadow: 0 8px 32px hsla(var(--shadow-secondary), 0.15), 0 0 80px hsla(var(--shadow-secondary), 0.1);
+  }
+
+  .shadow-luxury {
+    box-shadow: 
+      0 2px 4px rgba(0, 0, 0, 0.05),
+      0 8px 16px rgba(0, 0, 0, 0.1),
+      0 16px 32px rgba(0, 0, 0, 0.1),
+      0 32px 64px rgba(0, 0, 0, 0.1);
+  }
+
+  .border-gradient {
+    border: 2px solid transparent;
+    background-clip: padding-box;
+    position: relative;
+  }
+
+  .border-gradient::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 2px;
+    background: linear-gradient(135deg, hsl(var(--gradient-start)), hsl(var(--gradient-end)));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
   }
 }

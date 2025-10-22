@@ -117,11 +117,11 @@ export const Contact = () => {
                 <Button 
                   onClick={handleCall}
                   size="lg"
-                  className="gradient-primary text-white hover:opacity-90 hover:scale-105 transition-all duration-500 shadow-luxury text-xl md:text-2xl px-16 py-10 rounded-full group relative overflow-hidden"
+                  className="gradient-primary text-white hover:opacity-90 hover:scale-105 transition-all duration-500 shadow-luxury text-base sm:text-lg md:text-xl px-8 sm:px-12 md:px-16 py-4 sm:py-5 md:py-6 rounded-full group relative overflow-hidden w-full sm:w-auto"
                 >
                   <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000" />
-                  <Phone className="mr-4 h-8 w-8 group-hover:animate-pulse relative z-10" />
-                  <span className="relative z-10">Llamar Ahora: 444 333 2009</span>
+                  <Phone className="mr-2 sm:mr-3 md:mr-4 h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8 group-hover:animate-pulse relative z-10 flex-shrink-0" />
+                  <span className="relative z-10 whitespace-nowrap">Llamar Ahora: 444 333 2009</span>
                 </Button>
 
                 <div className="mt-6 glass rounded-xl p-4 max-w-2xl mx-auto">

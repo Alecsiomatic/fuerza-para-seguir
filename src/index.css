@@ -283,11 +283,29 @@ All colors MUST be HSL.
     animation: premium-float 4s ease-in-out infinite;
   }
 
-  /* Cards uniformes y premium */
+  /* Cards uniformes y premium - Mobile First */
   .benefit-card {
-    min-height: 520px;
+    min-height: 400px;
     display: flex;
     flex-direction: column;
+  }
+
+  @media (min-width: 640px) {
+    .benefit-card {
+      min-height: 460px;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .benefit-card {
+      min-height: 520px;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .benefit-card {
+      min-height: 560px;
+    }
   }
 
   .benefit-card-content {
@@ -320,24 +338,95 @@ All colors MUST be HSL.
     margin-top: 1.5rem;
   }
 
-  /* Grid de beneficios mejorado */
+  /* Grid de beneficios mejorado - Mobile First */
   .benefits-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 2rem;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
     align-items: stretch;
   }
 
+  @media (min-width: 640px) {
+    .benefits-grid {
+      gap: 2rem;
+    }
+  }
+
   @media (min-width: 768px) {
+    .benefits-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
     .benefits-grid {
       grid-template-columns: repeat(3, 1fr);
       gap: 2.5rem;
     }
   }
 
-  @media (min-width: 1024px) {
-    .benefit-card {
-      min-height: 560px;
+  /* Mejoras para touch devices */
+  @media (hover: none) and (pointer: coarse) {
+    .hover-elevate:active {
+      transform: translateY(-4px) scale(1.01);
+      transition: transform 0.2s ease;
     }
+    
+    .glass-premium {
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+  }
+
+  /* Optimizaciones para móviles */
+  @media (max-width: 767px) {
+    /* Espaciado móvil */
+    .container {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+    
+    /* Texto más legible en móviles */
+    .premium-text {
+      line-height: 1.6;
+    }
+    
+    /* Botones más grandes para touch */
+    .hover-elevate {
+      min-height: 44px; /* Tamaño mínimo recomendado para touch */
+    }
+    
+    /* Mejores márgenes en móviles */
+    section {
+      padding-top: 3rem;
+      padding-bottom: 3rem;
+    }
+  }
+
+  /* Optimizaciones para tablets */
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .container {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+  }
+
+  /* Scroll suave mejorado */
+  html {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Mejoras de performance para móviles */
+  * {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+  }
+
+  /* Focus visible mejorado para accesibilidad */
+  .hover-elevate:focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
   }
 }

@@ -9,8 +9,8 @@
 
 ### 1. Preparar proyecto localmente
 ```bash
-# Build del proyecto
-npm run build
+# Build del proyecto con pnpm (más rápido)
+pnpm run deploy
 
 # Verificar que se creó la carpeta dist/
 ls dist/
@@ -26,15 +26,18 @@ ssh root@srv1041644.hstgr.cloud
 apt update && apt upgrade -y
 ```
 
-### 4. Instalar Node.js y npm
+### 4. Instalar Node.js y pnpm
 ```bash
 # Instalar Node.js 20 LTS
 curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
 apt-get install -y nodejs
 
+# Instalar pnpm (más rápido que npm)
+npm install -g pnpm
+
 # Verificar instalación
 node --version
-npm --version
+pnpm --version
 ```
 
 ### 5. Instalar Nginx
@@ -67,8 +70,8 @@ scp -r dist/* root@srv1041644.hstgr.cloud:/var/www/fuerza-para-seguir/
 ```bash
 # En el servidor
 git clone https://github.com/alecsiomatiko/fuerza-para-seguir-call.git .
-npm install
-npm run build
+pnpm install
+pnpm run build
 ```
 
 ### 9. Configurar Nginx
@@ -146,8 +149,8 @@ crontab -e
 #!/bin/bash
 cd /var/www/fuerza-para-seguir
 git pull origin main
-npm install
-npm run build
+pnpm install
+pnpm run build
 systemctl reload nginx
 ```
 

@@ -1,0 +1,14 @@
+# Configuración para Apache - Coloca este archivo como /api/.htaccess en tu VPS
+
+RewriteEngine On
+RewriteBase /api/
+
+# Hacer proxy de todas las peticiones a /api hacia el backend en puerto 3006
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ http://localhost:3006/api/$1 [P,L]
+
+# Headers CORS
+Header always set Access-Control-Allow-Origin "*"
+Header always set Access-Control-Allow-Methods "GET, POST, OPTIONS"
+Header always set Access-Control-Allow-Headers "Content-Type, Authorization"

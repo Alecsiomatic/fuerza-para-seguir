@@ -1,9 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Phone } from "lucide-react";
 import { useState, useEffect } from "react";
+import { useAnalytics } from "@/hooks/use-analytics";
 
 export const FloatingCallButton = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const { trackCallClick } = useAnalytics();
 
   useEffect(() => {
     const toggleVisibility = () => {
@@ -19,6 +21,7 @@ export const FloatingCallButton = () => {
   }, []);
 
   const handleCall = () => {
+    trackCallClick();
     window.location.href = "tel:4443332009";
   };
 

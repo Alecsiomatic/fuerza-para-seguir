@@ -1,9 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { Phone } from "lucide-react";
 import logo from "@/assets/logo.png";
+import { useAnalytics } from "@/hooks/use-analytics";
 
 export const Hero = () => {
+  const { trackCallClick } = useAnalytics();
+  
   const handleCall = () => {
+    trackCallClick();
     window.location.href = "tel:4443332009";
   };
 

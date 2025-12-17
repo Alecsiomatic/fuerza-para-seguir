@@ -4,8 +4,12 @@ import { Facilities } from "@/components/Facilities";
 import { Contact } from "@/components/Contact";
 import { FloatingCallButton } from "@/components/FloatingCallButton";
 import { ParticlesBackground } from "@/components/ParticlesBackground";
+import { useAnalytics } from "@/hooks/use-analytics";
 
 const Index = () => {
+  // Track page visit
+  useAnalytics();
+  
   return (
     <div className="min-h-screen relative">
       <ParticlesBackground />

@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Phone, MapPin, ArrowLeft, Shield, Heart, Users, Clock, Award, Home } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -55,6 +56,33 @@ const benefits = [
 
 const TierraBlanca = () => {
   const { trackCallClick } = useAnalytics("tierra-blanca");
+
+  // Inicializar Meta Pixel específico para Tierra Blanca
+  useEffect(() => {
+    // Cargar el script de Facebook Pixel si no existe
+    if (!document.getElementById('fb-pixel-tierra-blanca')) {
+      const script = document.createElement('script');
+      script.id = 'fb-pixel-tierra-blanca';
+      script.innerHTML = `
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)}(window, document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '1229815818187940');
+        fbq('track', 'PageView');
+      `;
+      document.head.appendChild(script);
+    } else {
+      // Si ya existe el pixel, solo trackear PageView
+      if (window.fbq) {
+        window.fbq('track', 'PageView');
+      }
+    }
+  }, []);
   
   const handleCall = (phone: string) => {
     trackCallClick();

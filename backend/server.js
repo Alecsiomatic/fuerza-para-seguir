@@ -11,11 +11,31 @@ const PORT = process.env.PORT || 3006;
 // Trust proxy (necesario para Nginx reverse proxy)
 app.set('trust proxy', 1);
 
-// Rate limiting
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutos
-  max: 100, // Máximo 100 requests por IP
-  message: 'Demasiadas solicitudes desde esta IP, por favor intenta más tarde.'
+// Rate limiting general - más permisivo
+const generalLimiter = rateLimit({
+  windowMs: 1 * 60 * 1000, // 1 minuto
+  max: 200, // Máximo 200 requests por minuto por IP
+  message: { success: false, error: 'Demasiadas solicitudes, por favor intenta más tarde.' },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+// Rate limiter específico para tracking (más estricto para evitar spam)
+const trackingLimiter = rateLimit({
+  windowMs: 1 * 60 * 1000, // 1 minuto
+  max: 60, // 60 eventos de tracking por minuto
+  message: { success: false, error: 'Rate limit de tracking excedido.' },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+// Rate limiter para analytics/reportes (más permisivo para el admin)
+const analyticsLimiter = rateLimit({
+  windowMs: 1 * 60 * 1000, // 1 minuto
+  max: 300, // 300 requests por minuto para consultas de analytics
+  message: { success: false, error: 'Demasiadas consultas de analytics.' },
+  standardHeaders: true,
+  legacyHeaders: false,
 });
 
 // Middleware
@@ -30,7 +50,11 @@ app.use(cors({
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use('/api', limiter);
+
+// Aplicar rate limiters específicos
+app.use('/api/analytics/track', trackingLimiter);
+app.use('/api/analytics', analyticsLimiter);
+app.use('/api', generalLimiter);
 
 // Health check
 app.get('/health', (req, res) => {

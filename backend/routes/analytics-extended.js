@@ -138,7 +138,7 @@ router.post('/time-on-page', async (req, res) => {
     const { sessionId, branch, timeOnPageSeconds, maxScrollDepth, pageUrl } = req.body;
 
     await pool.execute(
-      `INSERT INTO page_time_tracking (session_id, branch, page_path, time_on_page_seconds) VALUES (?, ?, ?, ?)`,
+      `INSERT INTO page_time_tracking (session_id, branch, page_url, time_on_page_seconds) VALUES (?, ?, ?, ?)`,
       [sessionId || null, branch || null, pageUrl || null, timeOnPageSeconds || 0]
     );
 
@@ -399,17 +399,13 @@ router.get('/dashboard/:branch', async (req, res) => {
       [...branchParams, ...dateParams]
     );
 
-    // Tiempo promedio en página (usando page_time_tracking)
+    // Tiempo promedio en página
     const [avgTime] = await pool.execute(
       `SELECT 
-        AVG(max_time) as avg_time,
-        MAX(max_time) as max_time
-      FROM (
-        SELECT session_id, MAX(time_on_page_seconds) as max_time
-        FROM page_time_tracking 
-        WHERE 1=1 ${branchFilter} ${dateFilter}
-        GROUP BY session_id
-      ) as session_times`,
+        AVG(total_time_seconds) as avg_time,
+        MAX(total_time_seconds) as max_time
+      FROM sessions 
+      WHERE 1=1 ${branchFilter} ${dateFilter.replace('created_at', 'first_visit')}`,
       [...branchParams, ...dateParams]
     );
 
@@ -694,217 +690,6 @@ router.post('/reset', async (req, res) => {
     res.json({ success: true, message: 'Analytics reseteado exitosamente' });
   } catch (error) {
     console.error('Error reseteando analytics:', error);
-    res.status(500).json({ success: false, error: error.message });
-  }
-});
-
-// ============================================
-// ENDPOINT PARA REPORTES PDF
-// ============================================
-
-// Obtener datos para reporte PDF con rango de fechas
-router.get('/report/:branch', async (req, res) => {
-  try {
-    const { branch } = req.params;
-    const { startDate, endDate } = req.query;
-
-    if (!startDate || !endDate) {
-      return res.status(400).json({ 
-        success: false, 
-        error: 'Se requieren startDate y endDate en formato YYYY-MM-DD' 
-      });
-    }
-
-    const branchFilter = branch !== 'todas' ? 'AND branch = ?' : '';
-    const branchParams = branch !== 'todas' ? [branch] : [];
-    const dateFilter = 'AND DATE(created_at) BETWEEN ? AND ?';
-    const dateParams = [startDate, endDate];
-
-    // === MÉTRICAS PRINCIPALES ===
-    const [visits] = await pool.execute(
-      `SELECT COUNT(*) as total FROM visits WHERE 1=1 ${branchFilter} ${dateFilter}`,
-      [...branchParams, ...dateParams]
-    );
-
-    const [uniqueVisitors] = await pool.execute(
-      `SELECT COUNT(DISTINCT session_id) as total FROM visits WHERE 1=1 ${branchFilter} ${dateFilter}`,
-      [...branchParams, ...dateParams]
-    );
-
-    const [callClicks] = await pool.execute(
-      `SELECT COUNT(*) as total FROM call_clicks WHERE 1=1 ${branchFilter} ${dateFilter}`,
-      [...branchParams, ...dateParams]
-    );
-
-    const [newVisitors] = await pool.execute(
-      `SELECT COUNT(*) as total FROM visits WHERE is_returning = 0 ${branchFilter} ${dateFilter}`,
-      [...branchParams, ...dateParams]
-    );
-
-    const [returningVisitors] = await pool.execute(
-      `SELECT COUNT(*) as total FROM visits WHERE is_returning = 1 ${branchFilter} ${dateFilter}`,
-      [...branchParams, ...dateParams]
-    );
-
-    // === DESGLOSE POR DISPOSITIVO ===
-    const [deviceBreakdown] = await pool.execute(
-      `SELECT 
-        COALESCE(device_type, 'Desconocido') as device_type,
-        COUNT(*) as count,
-        ROUND(COUNT(*) * 100.0 / (SELECT COUNT(*) FROM visits WHERE 1=1 ${branchFilter} ${dateFilter}), 1) as percentage
-      FROM visits 
-      WHERE 1=1 ${branchFilter} ${dateFilter}
-      GROUP BY device_type
-      ORDER BY count DESC`,
-      [...branchParams, ...dateParams, ...branchParams, ...dateParams]
-    );
-
-    // === DESGLOSE POR NAVEGADOR ===
-    const [browserBreakdown] = await pool.execute(
-      `SELECT 
-        COALESCE(browser, 'Desconocido') as browser,
-        COUNT(*) as count,
-        ROUND(COUNT(*) * 100.0 / (SELECT COUNT(*) FROM visits WHERE 1=1 ${branchFilter} ${dateFilter}), 1) as percentage
-      FROM visits 
-      WHERE 1=1 ${branchFilter} ${dateFilter}
-      GROUP BY browser
-      ORDER BY count DESC
-      LIMIT 10`,
-      [...branchParams, ...dateParams, ...branchParams, ...dateParams]
-    );
-
-    // === DESGLOSE POR SO ===
-    const [osBreakdown] = await pool.execute(
-      `SELECT 
-        COALESCE(os, 'Desconocido') as os,
-        COUNT(*) as count,
-        ROUND(COUNT(*) * 100.0 / (SELECT COUNT(*) FROM visits WHERE 1=1 ${branchFilter} ${dateFilter}), 1) as percentage
-      FROM visits 
-      WHERE 1=1 ${branchFilter} ${dateFilter}
-      GROUP BY os
-      ORDER BY count DESC
-      LIMIT 10`,
-      [...branchParams, ...dateParams, ...branchParams, ...dateParams]
-    );
-
-    // === FUENTES DE TRÁFICO ===
-    const [trafficSources] = await pool.execute(
-      `SELECT 
-        CASE 
-          WHEN referrer LIKE '%facebook%' OR referrer LIKE '%fb.%' THEN 'Facebook'
-          WHEN referrer LIKE '%instagram%' THEN 'Instagram'
-          WHEN referrer LIKE '%google%' THEN 'Google'
-          WHEN referrer LIKE '%tiktok%' THEN 'TikTok'
-          WHEN referrer LIKE '%twitter%' OR referrer LIKE '%x.com%' THEN 'Twitter/X'
-          WHEN referrer LIKE '%youtube%' THEN 'YouTube'
-          WHEN referrer IS NULL OR referrer = '' THEN 'Directo'
-          ELSE 'Otro'
-        END as source,
-        COUNT(*) as count
-      FROM visits 
-      WHERE 1=1 ${branchFilter} ${dateFilter}
-      GROUP BY source
-      ORDER BY count DESC`,
-      [...branchParams, ...dateParams]
-    );
-
-    // === CAMPAÑAS UTM ===
-    const [utmSources] = await pool.execute(
-      `SELECT 
-        COALESCE(utm_source, 'Sin UTM') as utm_source,
-        COUNT(*) as count
-      FROM visits 
-      WHERE utm_source IS NOT NULL ${branchFilter} ${dateFilter}
-      GROUP BY utm_source
-      ORDER BY count DESC
-      LIMIT 10`,
-      [...branchParams, ...dateParams]
-    );
-
-    // === VISITAS POR DÍA ===
-    const [visitsByDate] = await pool.execute(
-      `SELECT 
-        DATE(created_at) as date,
-        COUNT(*) as visits,
-        COUNT(DISTINCT session_id) as unique_visitors
-      FROM visits 
-      WHERE 1=1 ${branchFilter} ${dateFilter}
-      GROUP BY DATE(created_at)
-      ORDER BY date ASC`,
-      [...branchParams, ...dateParams]
-    );
-
-    // === CLICS POR DÍA ===
-    const [clicksByDate] = await pool.execute(
-      `SELECT 
-        DATE(created_at) as date,
-        COUNT(*) as clicks
-      FROM call_clicks 
-      WHERE 1=1 ${branchFilter} ${dateFilter}
-      GROUP BY DATE(created_at)
-      ORDER BY date ASC`,
-      [...branchParams, ...dateParams]
-    );
-
-    // === IDIOMAS ===
-    const [languages] = await pool.execute(
-      `SELECT 
-        COALESCE(language, 'Desconocido') as language,
-        COUNT(*) as count
-      FROM visits 
-      WHERE 1=1 ${branchFilter} ${dateFilter}
-      GROUP BY language
-      ORDER BY count DESC
-      LIMIT 10`,
-      [...branchParams, ...dateParams]
-    );
-
-    // === RESOLUCIONES DE PANTALLA ===
-    const [screenResolutions] = await pool.execute(
-      `SELECT 
-        CONCAT(screen_width, 'x', screen_height) as resolution,
-        COUNT(*) as count
-      FROM visits 
-      WHERE screen_width IS NOT NULL ${branchFilter} ${dateFilter}
-      GROUP BY resolution
-      ORDER BY count DESC
-      LIMIT 10`,
-      [...branchParams, ...dateParams]
-    );
-
-    // Calcular tasa de conversión
-    const totalVisits = visits[0].total || 0;
-    const totalClicks = callClicks[0].total || 0;
-    const conversionRate = totalVisits > 0 ? (totalClicks / totalVisits * 100) : 0;
-
-    res.json({
-      success: true,
-      data: {
-        summary: {
-          totalVisits: totalVisits,
-          uniqueVisitors: uniqueVisitors[0].total || 0,
-          callClicks: totalClicks,
-          conversionRate: conversionRate,
-          avgTimeOnPage: 0,
-          newVisitors: newVisitors[0].total || 0,
-          returningVisitors: returningVisitors[0].total || 0
-        },
-        deviceBreakdown,
-        browserBreakdown,
-        osBreakdown,
-        trafficSources,
-        utmSources,
-        visitsByDate,
-        clicksByDate,
-        languages,
-        screenResolutions,
-        period: { startDate, endDate },
-        branch,
-        generatedAt: new Date().toISOString()
-      }
-    });
-  } catch (error) {
-    console.error('Error generando reporte:', error);
     res.status(500).json({ success: false, error: error.message });
   }
 });

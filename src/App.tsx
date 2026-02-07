@@ -7,7 +7,7 @@ import Home from "./pages/Home";
 import Corregidora from "./pages/Corregidora";
 import TierraBlanca from "./pages/TierraBlanca";
 import Valles from "./pages/Valles";
-import Admin from "./pages/Admin";
+import Admin from "./pages/AdminExtended";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();

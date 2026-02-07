@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Phone, MapPin, ArrowLeft, Shield, Heart, Users, Clock, Award, Mountain } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -48,6 +49,33 @@ const benefits = [
 
 const Valles = () => {
   const { trackCallClick } = useAnalytics("valles");
+
+  // Inicializar Meta Pixel específico para Valles
+  useEffect(() => {
+    // Cargar el script de Facebook Pixel si no existe
+    if (!document.getElementById('fb-pixel-valles')) {
+      const script = document.createElement('script');
+      script.id = 'fb-pixel-valles';
+      script.innerHTML = `
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)}(window, document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '1234602605435689');
+        fbq('track', 'PageView');
+      `;
+      document.head.appendChild(script);
+    } else {
+      // Si ya existe el pixel, solo trackear PageView
+      if (window.fbq) {
+        window.fbq('track', 'PageView');
+      }
+    }
+  }, []);
   
   const handleCall = (phone: string) => {
     trackCallClick();
@@ -81,7 +109,7 @@ const Valles = () => {
           {/* Imagen de fondo a pantalla completa */}
           <div className="absolute inset-0">
             <img 
-              src="/valles/IMG_6337.jpg" 
+              src="/valles/IMG_6531.jpg" 
               alt="Sucursal Cd. Valles" 
               className="w-full h-full object-cover"
             />

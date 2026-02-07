@@ -21,7 +21,7 @@ const ADMIN_EMAIL = "Admin@fuerzaparaseguir.com";
 const ADMIN_PASSWORD = "Admin123";
 
 // API URL
-const API_URL = import.meta.env.VITE_API_URL || 'https://fuerzaparaseguir.com/api';
+const API_URL = import.meta.env.VITE_API_URL || '/api';
 
 // Sucursales
 const SUCURSALES = [

@@ -21,7 +21,7 @@ import {
 import { cn } from "@/lib/utils";
 import { CalendarIcon, FileText, Download, Loader2 } from "lucide-react";
 
-const API_URL = "https://fuerzaparaseguir.com/api/analytics";
+const API_URL = "/api/analytics";
 
 interface ReportData {
   summary: {

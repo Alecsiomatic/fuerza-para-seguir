@@ -8,10 +8,10 @@ import { ParticlesBackground } from "@/components/ParticlesBackground";
 
 // Imágenes de la sucursal Cd Valles
 const facilities = [
-  { img: "/valles/IMG_6337.jpg", title: "Fachada Principal", description: "Entrada acogedora en el corazón de la Huasteca" },
-  { img: "/valles/IMG_6305.jpg", title: "Áreas Comunes", description: "Espacios amplios para convivencia y actividades" },
-  { img: "/valles/IMG_6539.jpg", title: "Instalaciones", description: "Ambiente cómodo y seguro para tu recuperación" },
-  { img: "/valles/IMG_6531.jpg", title: "Espacios Verdes", description: "Áreas naturales para meditación y reflexión" },
+  { img: "/images-valles/IMG_6337.jpg", title: "Fachada Principal", description: "Entrada acogedora en el corazón de la Huasteca" },
+  { img: "/images-valles/IMG_6305.jpg", title: "Áreas Comunes", description: "Espacios amplios para convivencia y actividades" },
+  { img: "/images-valles/IMG_6539.jpg", title: "Instalaciones", description: "Ambiente cómodo y seguro para tu recuperación" },
+  { img: "/images-valles/IMG_6531.jpg", title: "Espacios Verdes", description: "Áreas naturales para meditación y reflexión" },
 ];
 
 const benefits = [
@@ -109,7 +109,7 @@ const Valles = () => {
           {/* Imagen de fondo a pantalla completa */}
           <div className="absolute inset-0">
             <img 
-              src="/valles/IMG_6531.jpg" 
+              src="/images-valles/IMG_6531.jpg" 
               alt="Sucursal Cd. Valles" 
               className="w-full h-full object-cover"
             />

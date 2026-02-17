@@ -8,17 +8,17 @@ import { ParticlesBackground } from "@/components/ParticlesBackground";
 
 // Imágenes de la sucursal Tierra Blanca (usando encodeURI para espacios)
 const facilities = [
-  { img: "/sucursal1/_72A2850%20(1).jpg", title: "Fachada Principal", description: "Entrada acogedora y profesional" },
-  { img: "/sucursal1/_72A2868.jpg", title: "Recepción", description: "Atención personalizada desde el primer momento" },
-  { img: "/sucursal1/_72A2870.jpg", title: "Área Común", description: "Espacios amplios para convivencia" },
-  { img: "/sucursal1/_72A2917.jpg", title: "Dormitorios", description: "Habitaciones cómodas y ordenadas" },
-  { img: "/sucursal1/_72A2976.jpg", title: "Área de Terapia", description: "Espacios diseñados para la recuperación" },
-  { img: "/sucursal1/_72A2981.jpg", title: "Comedor", description: "Alimentación balanceada y nutritiva" },
-  { img: "/sucursal1/_72A3002.jpg", title: "Jardín", description: "Áreas verdes para meditación" },
-  { img: "/sucursal1/_72A3081.jpg", title: "Sala de Juntas", description: "Terapias grupales efectivas" },
-  { img: "/sucursal1/_72A3098.jpg", title: "Área Recreativa", description: "Actividades para el bienestar integral" },
-  { img: "/sucursal1/_72A3106.jpg", title: "Pasillos", description: "Instalaciones limpias y seguras" },
-  { img: "/sucursal1/_72A3110.jpg", title: "Certificaciones", description: "Personal altamente capacitado" },
+  { img: "/images-sucursal1/_72A2850%20(1).jpg", title: "Fachada Principal", description: "Entrada acogedora y profesional" },
+  { img: "/images-sucursal1/_72A2868.jpg", title: "Recepción", description: "Atención personalizada desde el primer momento" },
+  { img: "/images-sucursal1/_72A2870.jpg", title: "Área Común", description: "Espacios amplios para convivencia" },
+  { img: "/images-sucursal1/_72A2917.jpg", title: "Dormitorios", description: "Habitaciones cómodas y ordenadas" },
+  { img: "/images-sucursal1/_72A2976.jpg", title: "Área de Terapia", description: "Espacios diseñados para la recuperación" },
+  { img: "/images-sucursal1/_72A2981.jpg", title: "Comedor", description: "Alimentación balanceada y nutritiva" },
+  { img: "/images-sucursal1/_72A3002.jpg", title: "Jardín", description: "Áreas verdes para meditación" },
+  { img: "/images-sucursal1/_72A3081.jpg", title: "Sala de Juntas", description: "Terapias grupales efectivas" },
+  { img: "/images-sucursal1/_72A3098.jpg", title: "Área Recreativa", description: "Actividades para el bienestar integral" },
+  { img: "/images-sucursal1/_72A3106.jpg", title: "Pasillos", description: "Instalaciones limpias y seguras" },
+  { img: "/images-sucursal1/_72A3110.jpg", title: "Certificaciones", description: "Personal altamente capacitado" },
 ];
 
 const benefits = [
@@ -116,7 +116,7 @@ const TierraBlanca = () => {
           {/* Imagen de fondo a pantalla completa */}
           <div className="absolute inset-0">
             <img 
-              src="/sucursal1/_72A3002.jpg" 
+              src="/images-sucursal1/_72A3002.jpg" 
               alt="Sucursal Tierra Blanca" 
               className="w-full h-full object-cover"
             />

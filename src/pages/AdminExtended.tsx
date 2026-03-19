@@ -278,9 +278,9 @@ export default function AdminExtended() {
 
         {/* Tabs de sucursales */}
         <Tabs value={selectedBranch} onValueChange={setSelectedBranch}>
-          <TabsList className="grid grid-cols-4 w-full max-w-xl">
+          <TabsList className="grid grid-cols-5 w-full max-w-2xl">
             {SUCURSALES.map((suc) => (
-              <TabsTrigger key={suc.id} value={suc.id} className="flex items-center gap-2">
+              <TabsTrigger key={suc.id} value={suc.id} className="flex items-center gap-1 text-xs sm:text-sm">
                 <suc.icon className="h-4 w-4" />
                 <span className="hidden sm:inline">{suc.nombre}</span>
               </TabsTrigger>

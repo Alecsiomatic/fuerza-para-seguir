@@ -26,6 +26,7 @@ const API_URL = import.meta.env.VITE_API_URL || '/api';
 // Sucursales
 const SUCURSALES = [
   { id: 'todas', nombre: 'Todas', icon: Building2, color: 'text-purple-500', bgColor: 'bg-purple-500/10' },
+  { id: 'home', nombre: 'Inicio', icon: Globe, color: 'text-cyan-500', bgColor: 'bg-cyan-500/10' },
   { id: 'corregidora', nombre: 'Corregidora', icon: Building2, color: 'text-blue-500', bgColor: 'bg-blue-500/10', pixel: '1536525286984531' },
   { id: 'tierra-blanca', nombre: 'Tierra Blanca', icon: MapPin, color: 'text-amber-500', bgColor: 'bg-amber-500/10', pixel: '1229815818187940' },
   { id: 'valles', nombre: 'Cd. Valles', icon: MapPin, color: 'text-emerald-500', bgColor: 'bg-emerald-500/10', pixel: '1234602605435689' },

@@ -244,13 +244,17 @@ router.post('/event', async (req, res) => {
 router.get('/dashboard/:branch', async (req, res) => {
   try {
     const { branch } = req.params;
-    const { period = '7d' } = req.query; // 7d, 30d, 90d, all
+    const { period = '7d', startDate, endDate } = req.query; // 7d, 30d, 90d, all, o custom con startDate/endDate
 
-    // Calcular fecha de inicio según período
+    // Calcular fecha de inicio según período o fechas personalizadas
     let dateFilter = '';
     let dateParams = [];
     
-    if (period !== 'all') {
+    if (startDate && endDate) {
+      // Fechas personalizadas
+      dateFilter = 'AND created_at >= ? AND created_at < DATE_ADD(?, INTERVAL 1 DAY)';
+      dateParams = [startDate, endDate];
+    } else if (period !== 'all') {
       const days = parseInt(period) || 7;
       dateFilter = 'AND created_at >= DATE_SUB(NOW(), INTERVAL ? DAY)';
       dateParams = [days];

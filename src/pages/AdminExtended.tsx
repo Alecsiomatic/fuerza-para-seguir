@@ -13,7 +13,7 @@ import {
   Eye, EyeOff, Phone, Users, TrendingUp, RefreshCw, Building2, MapPin,
   Smartphone, Monitor, Tablet, Globe, Clock, MousePointer, ArrowUpRight,
   BarChart3, PieChart, Activity, Zap, Target, UserCheck, UserPlus,
-  Chrome, Apple, Laptop, ChevronRight
+  Chrome, Apple, Laptop, ChevronRight, Calendar
 } from "lucide-react";
 
 // Credenciales
@@ -103,7 +103,9 @@ export default function AdminExtended() {
   const [isLoading, setIsLoading] = useState(false);
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
   const [selectedBranch, setSelectedBranch] = useState("corregidora");
-  const [selectedPeriod, setSelectedPeriod] = useState("7");
+  const [selectedPeriod, setSelectedPeriod] = useState("30");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
   const [dashboardData, setDashboardData] = useState<any>(null);
   const [realtimeData, setRealtimeData] = useState<any>(null);
   const [sessionsData, setSessionsData] = useState<any[]>([]);
@@ -112,8 +114,16 @@ export default function AdminExtended() {
     try {
       setIsLoading(true);
       
+      // Construir query params según el modo
+      let queryParams = '';
+      if (selectedPeriod === 'custom' && startDate && endDate) {
+        queryParams = `?startDate=${startDate}&endDate=${endDate}`;
+      } else {
+        queryParams = `?period=${selectedPeriod}d`;
+      }
+      
       // Cargar dashboard principal
-      const dashboardRes = await fetch(`${API_URL}/analytics/dashboard/${selectedBranch}?period=${selectedPeriod}d`);
+      const dashboardRes = await fetch(`${API_URL}/analytics/dashboard/${selectedBranch}${queryParams}`);
       if (dashboardRes.ok) {
         const { data } = await dashboardRes.json();
         setDashboardData(data);
@@ -139,7 +149,7 @@ export default function AdminExtended() {
     } finally {
       setIsLoading(false);
     }
-  }, [selectedBranch, selectedPeriod]);
+  }, [selectedBranch, selectedPeriod, startDate, endDate]);
 
   useEffect(() => {
     const authStatus = sessionStorage.getItem("adminAuth");
@@ -150,7 +160,7 @@ export default function AdminExtended() {
   }, [loadDashboard]);
 
   useEffect(() => {
-    if (isAuthenticated) {
+    if (isAuthenticated && selectedPeriod !== 'custom') {
       loadDashboard();
     }
   }, [selectedBranch, selectedPeriod, isAuthenticated, loadDashboard]);
@@ -257,17 +267,51 @@ export default function AdminExtended() {
             </div>
           </div>
           
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <Select value={selectedPeriod} onValueChange={setSelectedPeriod}>
-              <SelectTrigger className="w-32">
+              <SelectTrigger className="w-36">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="7">7 días</SelectItem>
                 <SelectItem value="30">30 días</SelectItem>
                 <SelectItem value="90">90 días</SelectItem>
+                <SelectItem value="180">6 meses</SelectItem>
+                <SelectItem value="365">1 año</SelectItem>
+                <SelectItem value="custom">
+                  <span className="flex items-center gap-1">
+                    <Calendar className="h-3 w-3" />
+                    Personalizado
+                  </span>
+                </SelectItem>
               </SelectContent>
             </Select>
+            
+            {selectedPeriod === 'custom' && (
+              <div className="flex items-center gap-2">
+                <Input
+                  type="date"
+                  value={startDate}
+                  onChange={(e) => setStartDate(e.target.value)}
+                  className="w-36"
+                />
+                <span className="text-muted-foreground">a</span>
+                <Input
+                  type="date"
+                  value={endDate}
+                  onChange={(e) => setEndDate(e.target.value)}
+                  className="w-36"
+                />
+                <Button 
+                  size="sm" 
+                  onClick={loadDashboard}
+                  disabled={!startDate || !endDate || isLoading}
+                >
+                  Aplicar
+                </Button>
+              </div>
+            )}
+            
             {selectedBranch === 'todas' && (
               <ReportGenerator branch="todas" branchName="Todas las Sucursales" />
             )}

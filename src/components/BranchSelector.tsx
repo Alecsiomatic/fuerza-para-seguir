@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Building2, MapPin, Phone, ChevronRight, Heart } from "lucide-react";
+import { Phone, ChevronRight, Heart, Clock, Award, Users, Building2 } from "lucide-react";
 import logo from "@/assets/logo.png";
 
 interface Sucursal {
@@ -48,24 +48,75 @@ export function BranchSelector() {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-start py-8 px-4 md:hidden relative z-10">
+    <div className="flex flex-col items-center justify-start py-6 px-4 md:hidden relative z-10">
+      {/* Video de YouTube */}
+      <div className="w-full max-w-md mb-6 animate-fade-in">
+        <div className="relative rounded-2xl overflow-hidden shadow-luxury" style={{ paddingTop: '56.25%' }}>
+          <iframe
+            className="absolute inset-0 w-full h-full"
+            src="https://www.youtube.com/embed/IPAYqxW9B7U?si=yrRccM19vm6zrCrv&rel=0&modestbranding=1"
+            title="Clínica Fuerza Para Seguir - Video"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          ></iframe>
+        </div>
+      </div>
+
       {/* Logo y título */}
-      <div className="flex flex-col items-center mb-8 animate-fade-in">
-        <div className="relative mb-4">
+      <div className="flex flex-col items-center mb-6 animate-fade-in">
+        <div className="relative mb-3">
           <div className="absolute inset-0 gradient-primary opacity-30 rounded-full blur-2xl animate-pulse" style={{ animationDuration: '3s' }} />
-          <div className="glass-premium rounded-full p-4 shadow-luxury relative overflow-hidden">
+          <div className="glass-premium rounded-full p-3 shadow-luxury relative overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent" />
             <img 
               src={logo} 
               alt="Fuerza Para Seguir" 
-              className="w-20 h-20 object-contain relative z-10"
+              className="w-16 h-16 object-contain relative z-10"
             />
           </div>
         </div>
-        <h1 className="text-2xl font-bold text-center">
-          <span className="text-gradient-medical">Fuerza Para Seguir</span>
+        <h1 className="text-xl font-bold text-center">
+          <span className="text-gradient-medical">Clínica Fuerza Para Seguir</span>
         </h1>
-        <p className="text-muted-foreground text-sm mt-1">Rehabilitación Profesional</p>
+        <p className="text-muted-foreground text-sm mt-1">Rehabilitación Profesional de Adicciones</p>
+      </div>
+
+      {/* Descripción */}
+      <p className="text-sm text-foreground/80 text-center max-w-md mb-6 leading-relaxed px-2">
+        Somos una clínica especializada en la rehabilitación de personas con adicciones.
+        Contamos con instalaciones modernas y un equipo de profesionales comprometidos
+        con tu recuperación.
+      </p>
+
+      {/* Stats */}
+      <div className="grid grid-cols-4 gap-2 w-full max-w-md mb-8">
+        <div className="glass-premium rounded-xl p-3 text-center">
+          <Clock className="w-5 h-5 text-primary mx-auto mb-1" />
+          <div className="text-lg font-bold text-primary">24/7</div>
+          <div className="text-[10px] text-muted-foreground">Atención</div>
+        </div>
+        <div className="glass-premium rounded-xl p-3 text-center">
+          <Award className="w-5 h-5 text-secondary mx-auto mb-1" />
+          <div className="text-lg font-bold text-secondary">100%</div>
+          <div className="text-[10px] text-muted-foreground">Certificados</div>
+        </div>
+        <div className="glass-premium rounded-xl p-3 text-center">
+          <Users className="w-5 h-5 text-primary mx-auto mb-1" />
+          <div className="text-lg font-bold text-primary">+15</div>
+          <div className="text-[10px] text-muted-foreground">Años Exp.</div>
+        </div>
+        <div className="glass-premium rounded-xl p-3 text-center">
+          <Building2 className="w-5 h-5 text-secondary mx-auto mb-1" />
+          <div className="text-lg font-bold text-secondary">3</div>
+          <div className="text-[10px] text-muted-foreground">Sucursales</div>
+        </div>
+      </div>
+
+      {/* Título sucursales */}
+      <div className="text-center mb-4">
+        <h2 className="text-lg font-bold text-gradient-medical">Nuestras Instalaciones</h2>
+        <p className="text-xs text-muted-foreground">Selecciona una sucursal</p>
       </div>
 
       {/* Selector de sucursales estilo Linktree */}
@@ -81,7 +132,7 @@ export function BranchSelector() {
           >
             <div 
               className={`
-                relative overflow-hidden rounded-2xl transition-all duration-300
+                relative overflow-hidden rounded-2xl transition-all duration-300 active:scale-[0.98]
                 ${hoveredId === sucursal.id ? 'scale-[1.02]' : 'scale-100'}
               `}
             >
@@ -135,10 +186,10 @@ export function BranchSelector() {
         {/* Botón de llamada directa */}
         <a
           href="tel:4443332009"
-          className="block w-full animate-fade-in"
+          className="block w-full animate-fade-in mt-4"
           style={{ animationDelay: `${sucursales.length * 100}ms` }}
         >
-          <div className="relative overflow-hidden rounded-2xl">
+          <div className="relative overflow-hidden rounded-2xl active:scale-[0.98] transition-transform">
             {/* Gradient background for CTA */}
             <div className="absolute inset-0 gradient-medical" />
             
@@ -153,19 +204,28 @@ export function BranchSelector() {
             </div>
           </div>
         </a>
+      </div>
 
-        {/* Links adicionales */}
-        <div className="flex justify-center gap-4 pt-4 text-sm text-muted-foreground">
-          <a href="#contacto" className="hover:text-primary transition-colors">Contacto</a>
+      {/* Sección de ayuda */}
+      <div className="w-full max-w-md mt-8 glass-premium rounded-2xl p-5 text-center">
+        <h3 className="font-bold text-gradient-medical mb-2">¿Necesitas Ayuda?</h3>
+        <p className="text-xs text-foreground/80 mb-3">
+          Estamos disponibles las 24 horas para atender tu llamada. 
+          Da el primer paso hacia la recuperación.
+        </p>
+        <div className="flex justify-center gap-2 text-xs text-muted-foreground">
+          <span>💚 Confidencial</span>
           <span>•</span>
-          <a href="#nosotros" className="hover:text-primary transition-colors">Nosotros</a>
+          <span>🏥 Profesional</span>
+          <span>•</span>
+          <span>🤝 Sin juicios</span>
         </div>
       </div>
 
       {/* Footer */}
-      <div className="mt-auto pt-8 text-center">
+      <div className="mt-8 pt-6 text-center border-t border-border/30 w-full max-w-md">
         <p className="text-xs text-muted-foreground">
-          © 2026 Fuerza Para Seguir
+          © 2026 Clínica Fuerza Para Seguir
         </p>
         <p className="text-xs text-muted-foreground/70 mt-1">
           Rehabilitación con amor y profesionalismo

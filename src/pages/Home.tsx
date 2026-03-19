@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import logo from "@/assets/logo.png";
 import { ParticlesBackground } from "@/components/ParticlesBackground";
 import { useAnalytics } from "@/hooks/use-analytics";
+import { BranchSelector } from "@/components/BranchSelector";
 
 // Sucursales disponibles
 const sucursales = [
@@ -45,7 +46,11 @@ const Home = () => {
     <div className="min-h-screen relative">
       <ParticlesBackground />
       
-      <div className="relative z-10">
+      {/* Selector estilo Linktree para móvil */}
+      <BranchSelector />
+      
+      {/* Contenido desktop - oculto en móvil */}
+      <div className="relative z-10 hidden md:block">
         {/* Hero Section */}
         <section className="min-h-screen flex items-center justify-center relative overflow-hidden">
           {/* Background effects */}

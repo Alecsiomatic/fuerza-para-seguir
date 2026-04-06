@@ -41,7 +41,7 @@ import {
 } from '@/components/ui/popover';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { cn } from '@/lib/utils';
 
 interface RichTextEditorProps {
@@ -86,6 +86,9 @@ const Divider = () => (
 export function RichTextEditor({ content, onChange, placeholder = "Escribe el contenido..." }: RichTextEditorProps) {
   const [linkUrl, setLinkUrl] = useState('');
   const [imageUrl, setImageUrl] = useState('');
+  const [linkPopoverOpen, setLinkPopoverOpen] = useState(false);
+  const [imagePopoverOpen, setImagePopoverOpen] = useState(false);
+  const isInternalChange = useRef(false);
 
   const editor = useEditor({
     extensions: [
@@ -120,6 +123,7 @@ export function RichTextEditor({ content, onChange, placeholder = "Escribe el co
     ],
     content,
     onUpdate: ({ editor }) => {
+      isInternalChange.current = true;
       onChange(editor.getHTML());
     },
     editorProps: {
@@ -129,11 +133,15 @@ export function RichTextEditor({ content, onChange, placeholder = "Escribe el co
     },
   });
 
-  // Sincronizar contenido externo
+  // Sincronizar contenido externo (solo cuando viene de fuera, no del editor)
   useEffect(() => {
-    if (editor && content !== editor.getHTML()) {
-      editor.commands.setContent(content);
+    if (editor && !isInternalChange.current) {
+      const currentContent = editor.getHTML();
+      if (content !== currentContent) {
+        editor.commands.setContent(content || '');
+      }
     }
+    isInternalChange.current = false;
   }, [content, editor]);
 
   const setLink = useCallback(() => {
@@ -141,11 +149,11 @@ export function RichTextEditor({ content, onChange, placeholder = "Escribe el co
     
     if (linkUrl === '') {
       editor.chain().focus().extendMarkRange('link').unsetLink().run();
-      return;
+    } else {
+      editor.chain().focus().extendMarkRange('link').setLink({ href: linkUrl }).run();
     }
-
-    editor.chain().focus().extendMarkRange('link').setLink({ href: linkUrl }).run();
     setLinkUrl('');
+    setLinkPopoverOpen(false);
   }, [editor, linkUrl]);
 
   const addImage = useCallback(() => {
@@ -153,6 +161,7 @@ export function RichTextEditor({ content, onChange, placeholder = "Escribe el co
     
     editor.chain().focus().setImage({ src: imageUrl }).run();
     setImageUrl('');
+    setImagePopoverOpen(false);
   }, [editor, imageUrl]);
 
   if (!editor) {
@@ -417,7 +426,7 @@ export function RichTextEditor({ content, onChange, placeholder = "Escribe el co
         <Divider />
 
         {/* Link */}
-        <Popover>
+        <Popover open={linkPopoverOpen} onOpenChange={setLinkPopoverOpen}>
           <PopoverTrigger asChild>
             <Button
               type="button"
@@ -454,7 +463,10 @@ export function RichTextEditor({ content, onChange, placeholder = "Escribe el co
                   <Button 
                     size="sm" 
                     variant="outline"
-                    onClick={() => editor.chain().focus().unsetLink().run()}
+                    onClick={() => {
+                      editor.chain().focus().unsetLink().run();
+                      setLinkPopoverOpen(false);
+                    }}
                   >
                     Quitar enlace
                   </Button>
@@ -465,7 +477,7 @@ export function RichTextEditor({ content, onChange, placeholder = "Escribe el co
         </Popover>
 
         {/* Image */}
-        <Popover>
+        <Popover open={imagePopoverOpen} onOpenChange={setImagePopoverOpen}>
           <PopoverTrigger asChild>
             <Button
               type="button"

@@ -506,14 +506,33 @@ All colors MUST be HSL.
     line-height: 1.7;
   }
 
-  .ProseMirror ul,
+  .ProseMirror ul {
+    padding-left: 1.5em;
+    margin-bottom: 0.75em;
+    list-style-type: disc;
+  }
+
   .ProseMirror ol {
     padding-left: 1.5em;
     margin-bottom: 0.75em;
+    list-style-type: decimal;
+  }
+
+  .ProseMirror ul ul {
+    list-style-type: circle;
+  }
+
+  .ProseMirror ul ul ul {
+    list-style-type: square;
   }
 
   .ProseMirror li {
     margin-bottom: 0.25em;
+    display: list-item;
+  }
+
+  .ProseMirror li p {
+    margin: 0;
   }
 
   .ProseMirror blockquote {

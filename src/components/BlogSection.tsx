@@ -132,7 +132,7 @@ function BlogCard({ blog, index, branch }: BlogCardProps) {
   const [isHovered, setIsHovered] = useState(false);
 
   // Calcular tiempo de lectura
-  const readingTime = Math.max(1, Math.ceil(blog.content.length / 1000));
+  const readingTime = Math.max(1, Math.ceil((blog.content?.length || 0) / 1000));
 
   return (
     <Link
@@ -303,7 +303,7 @@ export function BlogPost({ branch, slug }: BlogPostProps) {
     );
   }
 
-  const readingTime = Math.max(1, Math.ceil(blog.content.length / 1000));
+  const readingTime = Math.max(1, Math.ceil((blog.content?.length || 0) / 1000));
 
   return (
     <article className="min-h-screen py-12 md:py-20">

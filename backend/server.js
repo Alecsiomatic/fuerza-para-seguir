@@ -1,9 +1,11 @@
 const express = require('express');
 const cors = require('cors');
 const rateLimit = require('express-rate-limit');
+const path = require('path');
 require('dotenv').config();
 
 const analyticsRoutes = require('./routes/analytics');
+const blogsRoutes = require('./routes/blogs');
 
 const app = express();
 const PORT = process.env.PORT || 3006;
@@ -61,8 +63,12 @@ app.get('/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
+// Servir archivos estáticos de uploads
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
+
 // Routes
 app.use('/api/analytics', analyticsRoutes);
+app.use('/api/blogs', blogsRoutes);
 
 // Error handling
 app.use((err, req, res, next) => {

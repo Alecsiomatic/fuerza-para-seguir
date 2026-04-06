@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import logo from "@/assets/logo.png";
 import { useAnalytics } from "@/hooks/use-analytics";
 import { ParticlesBackground } from "@/components/ParticlesBackground";
+import { BlogSection } from "@/components/BlogSection";
 
 // Imágenes de la sucursal Cd Valles
 const facilities = [
@@ -284,6 +285,9 @@ const Valles = () => {
             </div>
           </div>
         </section>
+
+        {/* Blog Section */}
+        <BlogSection branch="valles" />
 
         {/* Contact Section */}
         <section className="py-12 md:py-20 relative overflow-hidden" id="contacto">

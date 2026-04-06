@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import logo from "@/assets/logo.png";
 import { useAnalytics } from "@/hooks/use-analytics";
 import { ParticlesBackground } from "@/components/ParticlesBackground";
+import { BlogSection } from "@/components/BlogSection";
 
 // Imágenes de la sucursal Tierra Blanca (usando encodeURI para espacios)
 const facilities = [
@@ -299,6 +300,9 @@ const TierraBlanca = () => {
             </div>
           </div>
         </section>
+
+        {/* Blog Section */}
+        <BlogSection branch="tierra-blanca" />
 
         {/* Contact Section */}
         <section className="py-12 md:py-20 relative overflow-hidden" id="contacto">

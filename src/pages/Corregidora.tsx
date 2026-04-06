@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import logo from "@/assets/logo.png";
 import { useAnalytics } from "@/hooks/use-analytics";
 import { ParticlesBackground } from "@/components/ParticlesBackground";
+import { BlogSection } from "@/components/BlogSection";
 
 // Imágenes de Corregidora (assets originales)
 import facility1 from "@/assets/facility-1.jpg";
@@ -302,6 +303,9 @@ const Corregidora = () => {
             </div>
           </div>
         </section>
+
+        {/* Blog Section */}
+        <BlogSection branch="corregidora" />
 
         {/* Contact Section */}
         <section className="py-12 md:py-20 relative overflow-hidden" id="contacto">

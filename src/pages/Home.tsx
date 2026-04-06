@@ -6,6 +6,7 @@ import logo from "@/assets/logo.png";
 import { ParticlesBackground } from "@/components/ParticlesBackground";
 import { useAnalytics } from "@/hooks/use-analytics";
 import { BranchSelector } from "@/components/BranchSelector";
+import { BlogSection } from "@/components/BlogSection";
 
 // Sucursales disponibles
 const sucursales = [
@@ -239,6 +240,9 @@ const Home = () => {
             </div>
           </div>
         </section>
+
+        {/* Blog Section */}
+        <BlogSection branch="home" limit={3} showTitle={true} />
 
         {/* Sección de Contacto General */}
         <section className="py-20 relative">

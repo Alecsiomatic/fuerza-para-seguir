@@ -13,7 +13,7 @@ import {
   Eye, EyeOff, Phone, Users, TrendingUp, RefreshCw, Building2, MapPin,
   Smartphone, Monitor, Tablet, Globe, Clock, MousePointer, ArrowUpRight,
   BarChart3, PieChart, Activity, Zap, Target, UserCheck, UserPlus,
-  Chrome, Apple, Laptop, ChevronRight, Calendar
+  Chrome, Apple, Laptop, ChevronRight, Calendar, FileText
 } from "lucide-react";
 
 // Credenciales
@@ -315,6 +315,10 @@ export default function AdminExtended() {
             {selectedBranch === 'todas' && (
               <ReportGenerator branch="todas" branchName="Todas las Sucursales" />
             )}
+            <Button variant="outline" onClick={() => navigate("/admin/blogs")} className="gap-2">
+              <FileText className="h-4 w-4" />
+              Blog
+            </Button>
             <Button variant="outline" onClick={() => navigate("/")}>Ver Sitio</Button>
             <Button variant="destructive" onClick={handleLogout}>Salir</Button>
           </div>

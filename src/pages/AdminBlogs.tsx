@@ -83,6 +83,7 @@ export default function AdminBlogs() {
   });
   const [mediaFile, setMediaFile] = useState<File | null>(null);
   const [mediaPreview, setMediaPreview] = useState<string | null>(null);
+  const [mediaType, setMediaType] = useState<'image' | 'video' | null>(null);
 
   // Load blogs
   const loadBlogs = useCallback(async () => {
@@ -156,6 +157,7 @@ export default function AdminBlogs() {
     if (file) {
       setMediaFile(file);
       setMediaPreview(URL.createObjectURL(file));
+      setMediaType(file.type.startsWith('video/') ? 'video' : 'image');
       setFormData(prev => ({ ...prev, youtube_url: '' }));
     }
   };
@@ -173,6 +175,7 @@ export default function AdminBlogs() {
     });
     setMediaFile(null);
     setMediaPreview(null);
+    setMediaType(null);
     setEditingBlog(null);
     setIsCreating(false);
   };
@@ -190,7 +193,10 @@ export default function AdminBlogs() {
       status: blog.status === 'archived' ? 'draft' : blog.status
     });
     if (blog.media_url) {
-      setMediaPreview(blog.media_url);
+      // Construir URL completa para el preview
+      const baseUrl = window.location.origin;
+      setMediaPreview(blog.media_url.startsWith('http') ? blog.media_url : `${baseUrl}${blog.media_url}`);
+      setMediaType(blog.media_type as 'image' | 'video' || 'image');
     }
     setIsCreating(true);
   };
@@ -452,7 +458,7 @@ export default function AdminBlogs() {
                         allowFullScreen
                       />
                     ) : mediaPreview ? (
-                      mediaFile?.type.startsWith('video/') ? (
+                      mediaType === 'video' ? (
                         <video src={mediaPreview} controls className="w-full h-full object-cover" />
                       ) : (
                         <img src={mediaPreview} alt="Preview" className="w-full h-full object-cover" />
@@ -465,6 +471,7 @@ export default function AdminBlogs() {
                       onClick={() => {
                         setMediaFile(null);
                         setMediaPreview(null);
+                        setMediaType(null);
                         setFormData(prev => ({ ...prev, youtube_url: '' }));
                       }}
                     >

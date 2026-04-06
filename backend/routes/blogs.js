@@ -35,6 +35,12 @@ const upload = multer({
   }
 });
 
+// Configurar upload para múltiples archivos
+const uploadFields = upload.fields([
+  { name: 'media', maxCount: 1 },
+  { name: 'thumbnail', maxCount: 1 }
+]);
+
 // Generar slug a partir del título
 function generateSlug(title) {
   return title
@@ -57,7 +63,7 @@ router.get('/public/:branch', async (req, res) => {
     const offset = (page - 1) * limit;
 
     const [blogs] = await pool.execute(
-      `SELECT id, branch, title, slug, excerpt, media_url, media_type, youtube_id, 
+      `SELECT id, branch, title, slug, excerpt, media_url, thumbnail_url, media_type, youtube_id, 
               author, publish_date, views, created_at
        FROM blogs 
        WHERE branch = ? AND status = 'published' AND publish_date <= NOW()
@@ -189,7 +195,7 @@ router.get('/admin/:id', async (req, res) => {
 });
 
 // Crear nuevo blog
-router.post('/admin', upload.single('media'), async (req, res) => {
+router.post('/admin', uploadFields, async (req, res) => {
   try {
     const { branch, title, excerpt, content, youtube_url, publish_date, status = 'draft' } = req.body;
 
@@ -202,16 +208,24 @@ router.post('/admin', upload.single('media'), async (req, res) => {
 
     const slug = generateSlug(title);
     let media_url = null;
+    let thumbnail_url = null;
     let media_type = 'image';
     let youtube_id = null;
 
-    // Si hay archivo subido
-    if (req.file) {
-      media_url = `/uploads/blogs/${req.file.filename}`;
-      const ext = path.extname(req.file.filename).toLowerCase();
+    // Si hay archivo de media subido
+    if (req.files && req.files.media && req.files.media[0]) {
+      const mediaFile = req.files.media[0];
+      media_url = `/uploads/blogs/${mediaFile.filename}`;
+      const ext = path.extname(mediaFile.filename).toLowerCase();
       if (['.mp4', '.webm', '.mov'].includes(ext)) {
         media_type = 'video';
       }
+    }
+
+    // Si hay thumbnail subido
+    if (req.files && req.files.thumbnail && req.files.thumbnail[0]) {
+      const thumbFile = req.files.thumbnail[0];
+      thumbnail_url = `/uploads/blogs/${thumbFile.filename}`;
     }
 
     // Si hay URL de YouTube
@@ -224,9 +238,9 @@ router.post('/admin', upload.single('media'), async (req, res) => {
     }
 
     const [result] = await pool.execute(
-      `INSERT INTO blogs (branch, title, slug, excerpt, content, media_url, media_type, youtube_id, publish_date, status)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-      [branch, title, slug, excerpt || null, content, media_url, media_type, youtube_id, publish_date || new Date(), status]
+      `INSERT INTO blogs (branch, title, slug, excerpt, content, media_url, thumbnail_url, media_type, youtube_id, publish_date, status)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [branch, title, slug, excerpt || null, content, media_url, thumbnail_url, media_type, youtube_id, publish_date || new Date(), status]
     );
 
     res.json({ 
@@ -241,7 +255,7 @@ router.post('/admin', upload.single('media'), async (req, res) => {
 });
 
 // Actualizar blog
-router.put('/admin/:id', upload.single('media'), async (req, res) => {
+router.put('/admin/:id', uploadFields, async (req, res) => {
   try {
     const { id } = req.params;
     const { branch, title, excerpt, content, youtube_url, publish_date, status } = req.body;
@@ -253,11 +267,12 @@ router.put('/admin/:id', upload.single('media'), async (req, res) => {
     }
 
     let media_url = currentBlog.media_url;
+    let thumbnail_url = currentBlog.thumbnail_url;
     let media_type = currentBlog.media_type;
     let youtube_id = currentBlog.youtube_id;
 
-    // Si hay nuevo archivo
-    if (req.file) {
+    // Si hay nuevo archivo de media
+    if (req.files && req.files.media && req.files.media[0]) {
       // Eliminar archivo anterior si existe
       if (currentBlog.media_url && !currentBlog.media_url.includes('youtube')) {
         const oldPath = path.join(__dirname, '../..', currentBlog.media_url);
@@ -265,10 +280,24 @@ router.put('/admin/:id', upload.single('media'), async (req, res) => {
           fs.unlinkSync(oldPath);
         }
       }
-      media_url = `/uploads/blogs/${req.file.filename}`;
-      const ext = path.extname(req.file.filename).toLowerCase();
+      const mediaFile = req.files.media[0];
+      media_url = `/uploads/blogs/${mediaFile.filename}`;
+      const ext = path.extname(mediaFile.filename).toLowerCase();
       media_type = ['.mp4', '.webm', '.mov'].includes(ext) ? 'video' : 'image';
       youtube_id = null;
+    }
+
+    // Si hay nuevo thumbnail
+    if (req.files && req.files.thumbnail && req.files.thumbnail[0]) {
+      // Eliminar thumbnail anterior si existe
+      if (currentBlog.thumbnail_url) {
+        const oldThumbPath = path.join(__dirname, '../..', currentBlog.thumbnail_url);
+        if (fs.existsSync(oldThumbPath)) {
+          fs.unlinkSync(oldThumbPath);
+        }
+      }
+      const thumbFile = req.files.thumbnail[0];
+      thumbnail_url = `/uploads/blogs/${thumbFile.filename}`;
     }
 
     // Si hay nueva URL de YouTube
@@ -278,6 +307,7 @@ router.put('/admin/:id', upload.single('media'), async (req, res) => {
         youtube_id = match[1];
         media_type = 'youtube';
         media_url = null;
+        thumbnail_url = null;
       }
     }
 
@@ -291,12 +321,13 @@ router.put('/admin/:id', upload.single('media'), async (req, res) => {
         excerpt = COALESCE(?, excerpt),
         content = COALESCE(?, content),
         media_url = ?,
+        thumbnail_url = ?,
         media_type = ?,
         youtube_id = ?,
         publish_date = COALESCE(?, publish_date),
         status = COALESCE(?, status)
        WHERE id = ?`,
-      [branch, title, slug, excerpt, content, media_url, media_type, youtube_id, publish_date, status, id]
+      [branch, title, slug, excerpt, content, media_url, thumbnail_url, media_type, youtube_id, publish_date, status, id]
     );
 
     res.json({ success: true, message: 'Blog actualizado exitosamente' });
@@ -311,13 +342,22 @@ router.delete('/admin/:id', async (req, res) => {
   try {
     const { id } = req.params;
 
-    // Obtener blog para eliminar archivo
-    const [[blog]] = await pool.execute('SELECT media_url FROM blogs WHERE id = ?', [id]);
+    // Obtener blog para eliminar archivos
+    const [[blog]] = await pool.execute('SELECT media_url, thumbnail_url FROM blogs WHERE id = ?', [id]);
     
+    // Eliminar media
     if (blog && blog.media_url && !blog.media_url.includes('youtube')) {
       const filePath = path.join(__dirname, '../..', blog.media_url);
       if (fs.existsSync(filePath)) {
         fs.unlinkSync(filePath);
+      }
+    }
+
+    // Eliminar thumbnail
+    if (blog && blog.thumbnail_url) {
+      const thumbPath = path.join(__dirname, '../..', blog.thumbnail_url);
+      if (fs.existsSync(thumbPath)) {
+        fs.unlinkSync(thumbPath);
       }
     }
 

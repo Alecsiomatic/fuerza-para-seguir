@@ -38,6 +38,7 @@ interface Blog {
   excerpt: string;
   content: string;
   media_url: string | null;
+  thumbnail_url: string | null;
   media_type: 'image' | 'video' | 'youtube';
   youtube_id: string | null;
   author: string;
@@ -85,6 +86,8 @@ export default function AdminBlogs() {
   const [mediaFile, setMediaFile] = useState<File | null>(null);
   const [mediaPreview, setMediaPreview] = useState<string | null>(null);
   const [mediaType, setMediaType] = useState<'image' | 'video' | null>(null);
+  const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
+  const [thumbnailPreview, setThumbnailPreview] = useState<string | null>(null);
 
   // Load blogs
   const loadBlogs = useCallback(async () => {
@@ -158,8 +161,23 @@ export default function AdminBlogs() {
     if (file) {
       setMediaFile(file);
       setMediaPreview(URL.createObjectURL(file));
-      setMediaType(file.type.startsWith('video/') ? 'video' : 'image');
+      const isVideo = file.type.startsWith('video/');
+      setMediaType(isVideo ? 'video' : 'image');
       setFormData(prev => ({ ...prev, youtube_url: '' }));
+      // Si es imagen, limpiar thumbnail (la imagen es su propio preview)
+      if (!isVideo) {
+        setThumbnailFile(null);
+        setThumbnailPreview(null);
+      }
+    }
+  };
+
+  // Handle thumbnail selection
+  const handleThumbnailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file && file.type.startsWith('image/')) {
+      setThumbnailFile(file);
+      setThumbnailPreview(URL.createObjectURL(file));
     }
   };
 
@@ -177,6 +195,8 @@ export default function AdminBlogs() {
     setMediaFile(null);
     setMediaPreview(null);
     setMediaType(null);
+    setThumbnailFile(null);
+    setThumbnailPreview(null);
     setEditingBlog(null);
     setIsCreating(false);
   };
@@ -199,6 +219,10 @@ export default function AdminBlogs() {
       setMediaPreview(blog.media_url.startsWith('http') ? blog.media_url : `${baseUrl}${blog.media_url}`);
       setMediaType(blog.media_type as 'image' | 'video' || 'image');
     }
+    if (blog.thumbnail_url) {
+      const baseUrl = window.location.origin;
+      setThumbnailPreview(blog.thumbnail_url.startsWith('http') ? blog.thumbnail_url : `${baseUrl}${blog.thumbnail_url}`);
+    }
     setIsCreating(true);
   };
 
@@ -220,6 +244,10 @@ export default function AdminBlogs() {
       
       if (mediaFile) {
         data.append('media', mediaFile);
+      }
+
+      if (thumbnailFile) {
+        data.append('thumbnail', thumbnailFile);
       }
 
       const url = editingBlog 
@@ -473,11 +501,58 @@ export default function AdminBlogs() {
                         setMediaFile(null);
                         setMediaPreview(null);
                         setMediaType(null);
+                        setThumbnailFile(null);
+                        setThumbnailPreview(null);
                         setFormData(prev => ({ ...prev, youtube_url: '' }));
                       }}
                     >
                       <XCircle className="h-4 w-4" />
                     </Button>
+                  </div>
+                )}
+
+                {/* Thumbnail para videos */}
+                {mediaType === 'video' && (
+                  <div className="mt-4 p-4 border rounded-xl bg-muted/30">
+                    <Label className="text-sm font-medium flex items-center gap-2 mb-3">
+                      <Image className="h-4 w-4" />
+                      Imagen de portada (thumbnail)
+                    </Label>
+                    <p className="text-xs text-muted-foreground mb-3">
+                      Esta imagen se mostrará en las tarjetas del blog en lugar del video
+                    </p>
+                    <div className="flex gap-4 items-start">
+                      <div className="flex-1">
+                        <div className="border-2 border-dashed rounded-lg p-4 text-center hover:border-primary transition-colors cursor-pointer relative">
+                          <input
+                            type="file"
+                            accept="image/*"
+                            onChange={handleThumbnailChange}
+                            className="absolute inset-0 opacity-0 cursor-pointer"
+                          />
+                          <Upload className="h-6 w-6 mx-auto text-muted-foreground mb-1" />
+                          <p className="text-xs text-muted-foreground">
+                            Subir imagen de portada
+                          </p>
+                        </div>
+                      </div>
+                      {thumbnailPreview && (
+                        <div className="relative w-32 h-20 rounded-lg overflow-hidden">
+                          <img src={thumbnailPreview} alt="Thumbnail" className="w-full h-full object-cover" />
+                          <Button
+                            variant="destructive"
+                            size="sm"
+                            className="absolute top-1 right-1 h-6 w-6 p-0"
+                            onClick={() => {
+                              setThumbnailFile(null);
+                              setThumbnailPreview(null);
+                            }}
+                          >
+                            <XCircle className="h-3 w-3" />
+                          </Button>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 )}
               </div>

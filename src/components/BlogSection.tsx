@@ -19,6 +19,7 @@ interface Blog {
   excerpt: string;
   content: string;
   media_url: string | null;
+  thumbnail_url: string | null;
   media_type: 'image' | 'video' | 'youtube';
   youtube_id: string | null;
   author: string;
@@ -182,6 +183,30 @@ function BlogCard({ blog, index, branch }: BlogCardProps) {
                       (e.target as HTMLImageElement).src = `https://img.youtube.com/vi/${blog.youtube_id}/hqdefault.jpg`;
                     }}
                   />
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className={`
+                      w-16 h-16 rounded-full bg-white/90 flex items-center justify-center
+                      shadow-xl transition-transform duration-300
+                      ${isHovered ? 'scale-110' : 'scale-100'}
+                    `}>
+                      <Play className="h-6 w-6 text-primary fill-primary ml-1" />
+                    </div>
+                  </div>
+                </>
+              ) : blog.media_type === 'video' ? (
+                // Para videos, usar thumbnail si existe, sino mostrar placeholder con play
+                <>
+                  {blog.thumbnail_url ? (
+                    <img
+                      src={blog.thumbnail_url}
+                      alt={blog.title}
+                      className={`w-full h-full object-cover transition-transform duration-700 ${isHovered ? 'scale-110' : 'scale-100'}`}
+                    />
+                  ) : (
+                    <div className="w-full h-full gradient-primary opacity-30 flex items-center justify-center">
+                      <span className="text-6xl opacity-50">🎬</span>
+                    </div>
+                  )}
                   <div className="absolute inset-0 flex items-center justify-center">
                     <div className={`
                       w-16 h-16 rounded-full bg-white/90 flex items-center justify-center

@@ -8,6 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { RichTextEditor } from "@/components/RichTextEditor";
 import { 
   Plus, Pencil, Trash2, Eye, EyeOff, Upload, Youtube, Image, Video,
   Calendar, FileText, Building2, MapPin, Globe, ArrowLeft, Save, Send,
@@ -484,16 +485,11 @@ export default function AdminBlogs() {
               {/* Contenido */}
               <div>
                 <Label>Contenido del blog</Label>
-                <Textarea
+                <RichTextEditor
+                  content={formData.content}
+                  onChange={(content) => setFormData(prev => ({ ...prev, content }))}
                   placeholder="Escribe el contenido completo del blog..."
-                  value={formData.content}
-                  onChange={(e) => setFormData(prev => ({ ...prev, content: e.target.value }))}
-                  rows={15}
-                  className="font-mono"
                 />
-                <p className="text-xs text-muted-foreground mt-1">
-                  Puedes usar Markdown para dar formato: **negrita**, *cursiva*, # títulos
-                </p>
               </div>
             </CardContent>
           </Card>

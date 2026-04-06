@@ -30,23 +30,34 @@ interface BlogSectionProps {
 export function BlogSection({ branch, limit = 3, showTitle = true }: BlogSectionProps) {
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     const loadBlogs = async () => {
       try {
         const res = await fetch(`${API_URL}/blogs/public/${branch}?limit=${limit}`);
         if (res.ok) {
-          const { data } = await res.json();
-          setBlogs(data);
+          const result = await res.json();
+          // Asegurar que data es un array
+          setBlogs(Array.isArray(result?.data) ? result.data : []);
+        } else {
+          setBlogs([]);
         }
       } catch (error) {
         console.error('Error loading blogs:', error);
+        setError(true);
+        setBlogs([]);
       } finally {
         setIsLoading(false);
       }
     };
     loadBlogs();
   }, [branch, limit]);
+
+  // No mostrar nada si hubo error o no hay blogs
+  if (error || (!isLoading && blogs.length === 0)) {
+    return null;
+  }
 
   if (isLoading) {
     return (
@@ -68,10 +79,6 @@ export function BlogSection({ branch, limit = 3, showTitle = true }: BlogSection
         </div>
       </section>
     );
-  }
-
-  if (blogs.length === 0) {
-    return null;
   }
 
   return (

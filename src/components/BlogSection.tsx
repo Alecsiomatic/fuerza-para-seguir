@@ -2,7 +2,12 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Calendar, Eye, ArrowRight, Play, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
+import DOMPurify from "dompurify";
+// Helper para extraer texto plano de HTML
+const stripHtml = (html: string) => {
+  const doc = new DOMParser().parseFromString(html, 'text/html');
+  return doc.body.textContent || '';
+};
 // API URL
 const API_URL = import.meta.env.VITE_API_URL || '/api';
 
@@ -131,8 +136,9 @@ interface BlogCardProps {
 function BlogCard({ blog, index, branch }: BlogCardProps) {
   const [isHovered, setIsHovered] = useState(false);
 
-  // Calcular tiempo de lectura
-  const readingTime = Math.max(1, Math.ceil((blog.content?.length || 0) / 1000));
+  // Calcular tiempo de lectura (basado en texto plano, no HTML)
+  const plainText = stripHtml(blog.content || '');
+  const readingTime = Math.max(1, Math.ceil(plainText.length / 1000));
 
   return (
     <Link
@@ -230,7 +236,7 @@ function BlogCard({ blog, index, branch }: BlogCardProps) {
 
               {/* Excerpt */}
               <p className="text-muted-foreground line-clamp-2">
-                {blog.excerpt || blog.content.substring(0, 150)}...
+                {blog.excerpt || stripHtml(blog.content || '').substring(0, 150)}...
               </p>
 
               {/* Footer */}
@@ -303,7 +309,9 @@ export function BlogPost({ branch, slug }: BlogPostProps) {
     );
   }
 
-  const readingTime = Math.max(1, Math.ceil((blog.content?.length || 0) / 1000));
+  // Calcular tiempo de lectura (basado en texto plano, no HTML)
+  const plainText = stripHtml(blog.content || '');
+  const readingTime = Math.max(1, Math.ceil(plainText.length / 1000));
 
   return (
     <article className="min-h-screen py-12 md:py-20">
@@ -379,15 +387,15 @@ export function BlogPost({ branch, slug }: BlogPostProps) {
               prose-strong:text-foreground prose-strong:font-semibold
               prose-blockquote:border-l-primary prose-blockquote:text-muted-foreground
               prose-ul:text-foreground/80 prose-ol:text-foreground/80
+              prose-li:text-foreground/80
             "
-          >
-            {/* Renderizar contenido - por ahora como texto plano con saltos de línea */}
-            {blog.content.split('\n').map((paragraph, i) => (
-              paragraph.trim() && (
-                <p key={i} className="mb-4">{paragraph}</p>
-              )
-            ))}
-          </div>
+            dangerouslySetInnerHTML={{ 
+              __html: DOMPurify.sanitize(blog.content || '', {
+                ALLOWED_TAGS: ['p', 'br', 'strong', 'em', 'u', 's', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ul', 'ol', 'li', 'a', 'img', 'blockquote', 'pre', 'code', 'hr', 'mark', 'span'],
+                ALLOWED_ATTR: ['href', 'src', 'alt', 'class', 'style', 'target', 'rel']
+              })
+            }}
+          />
         </div>
 
         {/* Author & Share */}
